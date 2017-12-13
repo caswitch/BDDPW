@@ -15,7 +15,6 @@ class Bdd {
 		catch(Exception $e){
 			die('Erreur : '.$e->getMessage());
 		}
-		echo 'connexion reussie';
 	}
 
 	public static function getInstance() {
