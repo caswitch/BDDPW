@@ -28,7 +28,15 @@ while ($donnees = $bdd->fetch($req)) {
 	<?php
 }
 */
+if (!empty($_GET['page']) && is_file('controllers/'.$_GET['page'].'.php')) {
+        include 'controllers/'.$_GET['page'].'.php';
+}
+else {
+        include 'controllers/accueil.php';
+}
 
+
+/*
 ob_start();
 
 if (isset($_SERVER['PATH_INFO'])) {
@@ -47,10 +55,14 @@ if (isset($_SERVER['PATH_INFO'])) {
 		$controller_file = dirname(__FILE__).'/controllers/'.$controller.'.php';
 
 		if (is_file($controller_file)) {
+			echo $controller_file;
+			echo 'il existe, crotte';
 			require_once $controller_file;
 			$controller_name = 'Controller_'.ucfirst($controller);
 
 			if (class_exists($controller_name)) {
+				echo $controller_name;
+				echo 'la classe existe, zut';
 				$c = new $controller_name;
 
 				if (method_exists($c, $method)) {
@@ -69,6 +81,7 @@ if (isset($_SERVER['PATH_INFO'])) {
 }
 
 $content=ob_get_clean();
+ */
 ?>
 
 
@@ -145,24 +158,10 @@ $content=ob_get_clean();
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
-    </div><!-- /.carousel -->
-
-        </div>
-        <!-- /.col-lg-9 -->
-
+		</div>
+				</div>
       </div>
-      <!-- /.row -->
-
     </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; La cuisine de Ratatouille</p>
-      </div>
-      <!-- /.container -->
-    </footer>
 
 	<?php
 	 include 'views/footer.php';

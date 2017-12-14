@@ -40,9 +40,11 @@
 		<?php
 		 include 'views/header.php';
 		?>
+		<h2>view/inscription</h2>
 
 			<div class="row justify-content-end-center">
 				<div class="col-md-8 col-md-offset-2">
+					<p>Les informations demandées dans le formulaire suivant sont nécessaires afin de poursuivre votre inscription.</p>
 					<form method="post">
 						<label>Pseudo: <input type="text" name="pseudo"/></label><br/>
 						<label>Mot de passe: <input type="password" name="passe"/></label><br/>

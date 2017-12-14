@@ -35,6 +35,8 @@
 	?>
 	</p>
 
+	<h2>views/recettes.php</h2>
+
     <!-- Page Content -->
     <div class="container">
 		<?php
@@ -43,24 +45,17 @@
 
 			<div class="row justify-content-end-center">
 				<div class="col-md-8 col-md-offset-2">
-	<form action="<?=BASEURL?>/index.php/recette/recette" method="post">
-	<label for="act_recette">Recette : </label><input type="text" name="recette" id="act_recette" />
-  	<label for="act_difficulte">difficulté : </label><input type="text" name="difficulte" id="act_difficulte" />
-  	<label for="act_dateAjout">Date : </label><input type="text" name="dateRecette" id="act_dateAjout" />
-  	<input type="submit" value="Envoyer">
-	</form>
-
+					<form action="<?=BASEURL?>/index.php/recette/recette_create" method="post">
+						<label for="act_recette">Recette : </label><input type="text" name="nom_recette" id="act_recette" />
+						<label for="act_description">Description : </label><input type="text" name="description" id="act_description" />
+						<label for="act_difficulte">Difficulté : </label><input type="text" name="difficulte" id="act_difficulte" />
+						<label for="act_description">Description : </label><input type="text" name="description" id="act_description" />
+						<label for="act_prix">Prix : </label><input type="text" name="prix" id="act_prix" />
+						<label for="act_nb_pers">Nombre de personnes : </label><input type="text" name="nb_pers" id="act_nb_pers" />
+						<input type="submit" value="Envoyer">
+					</form>
 				</div>
 			</div>
-
-
-	<!-- Footer -->
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; La cuisine de Ratatouille</p>
-		</div>
-		<!-- /.container -->
-	</footer>
 
 	<?php
 	 include 'views/footer.php';

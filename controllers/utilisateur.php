@@ -1,7 +1,8 @@
 <?php
 
+require_once 'models/recette.php';
 
-class Controller_User {
+class Controller_Utilisateur {
 	public function __construct() {}
 
 	public function inscription() {
