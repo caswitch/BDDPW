@@ -45,12 +45,28 @@
 			<div class="row justify-content-end-center">
 				<div class="col-md-8 col-md-offset-2">
 					<p>Les informations demandées dans le formulaire suivant sont nécessaires afin de poursuivre votre inscription.</p>
-					<form method="post">
-						<label>Pseudo: <input type="text" name="pseudo"/></label><br/>
-						<label>Mot de passe: <input type="password" name="passe"/></label><br/>
-						<label>Confirmation du mot de passe: <input type="password" name="passe2"/></label><br/>
+					<form action="inscription_finale.php'" method="post">
+						<label>Pseudo: <input type="text" name="login"/></label><br/>
+						<label>Mot de passe: <input type="password" name="pwd"/></label><br/>
+						<label>Confirmation du mot de passe: <input type="password" name="pwd_v"/></label><br/>
 						<label>Adresse e-mail: <input type="text" name="email"/></label><br/>
-						<input type="submit" value="M'inscrire"/>
+						<input type="submit" name="inscrismoi" value="M'inscrire"/>
+						<?php
+if (isset($_POST["inscrismoi"])) {
+	if (empty($_POST['login']) ||  empty($_POST['pwd']) || empty($_POST['pwd_v']) || empty($_POST['email'])) {
+		echo '<script language="javascript">';
+		echo 'alert("Veuillez remplir tous les champs.")';
+		echo '</script>';
+	}
+
+	if ($_POST['pwd'] != $_POST['pwd_v']) {
+		echo '<script language="javascript">';
+		echo 'alert("Le mot de passe et sa confirmation ne correspondent pas.")';
+		echo '</script>';
+	}
+}
+?>
+
 					</form>
 				</div>
 			</div>

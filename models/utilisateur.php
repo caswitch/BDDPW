@@ -1,27 +1,33 @@
 <?php
 
-require_once('bdd.php');
+require_once(dirname(__FILE__).'/bdd.php');
 
-class User {
-	static private $bdd;
-
+class Utilisateur extends Bdd {
 	static private $id_utilisateur;
 	private $login;
 	private $email;
-	private $email_verifie = true;
+	private $email_v = true;
 	private $mdp;
 	
 
-	function __construct($pLogin, $pEmail, $pMdp) {
-		$this->bdd	 = Bdd::getInstance();
+	function __construct($pId_utilisateur, $pLogin, $pEmail, $pEmail_v, $pMdp) {
+		$this->id_utilisateur = pId_utilisateur;
 		$this->login = pLogin;
 		$this->email = pEmail;
-		$this->mdp	 = pMdp;
+		$this->email_v = pEmail_v;
+		$this->mdp = pMdp;
 	}
 
-	public function inscription() {
-		$req = $this->bdd->prepare("INSERT INTO utilisateur (login,email,email_verifie,mdp) 
+	/* Accesseurs */
+
+	public function inscription($pLogin, $pEmail, $pPwd, $pPwd_v) {
+		if ($pPwd != $pPwd_v) {
+
+		}
+
+		$req = self::$bdd->prepare("INSERT INTO utilisateur (login,email,email_verifie,mdp) 
 									VALUES (:login, :email, :email_v, :mdp)");
+
 		$req->bindparam(":login",$this->login);
 		$req->bindparam(":email",$this->email);
 		$req->bindparam(":email_v",$this->email_verifie);

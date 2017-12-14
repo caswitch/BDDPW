@@ -2,7 +2,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
 	<div class="navbar-header">
-		<a class="navbar-brand" href="/index.php">La cuisine de Ratatouille</a>
+		<a class="navbar-brand" href="<?=BASEURL?>/index.php">La cuisine de Ratatouille</a>
 		<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
 		</button>
@@ -39,7 +39,7 @@
 		<?php } ?>
 		<?php if (!isset($_SESSION['connect'])) { ?> 
 		<li class="">
-		  <a class="nav-link" href="<?=BASEURL?>/index.php/utilisateur/inscription">Inscription</a>
+		  <a class="nav-link" href="<?=BASEURL?>/controllers/inscription.php">Inscription</a>
 		</li>
 		<?php } ?>
 	  </ul>

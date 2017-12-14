@@ -24,28 +24,19 @@ class Bdd {
 		return self::$connect;
 	}
  
-	public function requete($req){
+	public function requete($req) {
 		$query = $this->bdd->query($req);
 		return $query;
 	}
 
-	public function prepare($req){
+	public function preparation($req) {
 		$query = $this->bdd->prepare($req);
 		return $query;
 	}
 
-	public function execute($query){
+	public function execution($query) {
 		$req = $query->execute();
 		return $req;
 	}
-
-	public function fetch($result) {
-		return $result->fetch();
-	}
-
-	public function close($result){
-		return $result->closeCursor();
-	}
-
 }
 ?>
