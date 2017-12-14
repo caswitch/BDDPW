@@ -29,7 +29,7 @@
 
 		<?php if (!isset($_SESSION['connect'])) { ?> 
 		<li class="">
-		  <a class="nav-link" href="/connexion">Connexion</a>
+		  <a class="nav-link" href="/index.php/user/connexion">Connexion</a>
 		</li>
 		<?php } ?>
 		<?php if (isset($_SESSION['connect'])) { ?> 

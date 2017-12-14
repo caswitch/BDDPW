@@ -43,13 +43,13 @@
 
 			<div class="row justify-content-end-center">
 				<div class="col-md-8 col-md-offset-2">
-					<form method="post">
-						<label>Pseudo: <input type="text" name="pseudo"/></label><br/>
-						<label>Mot de passe: <input type="password" name="passe"/></label><br/>
-						<label>Confirmation du mot de passe: <input type="password" name="passe2"/></label><br/>
-						<label>Adresse e-mail: <input type="text" name="email"/></label><br/>
-						<input type="submit" value="M'inscrire"/>
-					</form>
+	<form action="<?=BASEURL?>/index.php/recette/recette" method="post">
+	<label for="act_recette">Recette : </label><input type="text" name="recette" id="act_recette" />
+  	<label for="act_difficulte">difficulté : </label><input type="text" name="difficulte" id="act_difficulte" />
+  	<label for="act_dateAjout">Date : </label><input type="text" name="dateRecette" id="act_dateAjout" />
+  	<input type="submit" value="Envoyer">
+	</form>
+
 				</div>
 			</div>
 
@@ -80,4 +80,5 @@
 
 </body>
 </html>
+
 
