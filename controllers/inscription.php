@@ -2,20 +2,23 @@
 
 include(dirname(__FILE__).'/../models/utilisateur.php');
 
+// Vérification des données entrées dans le formulaire
 if (isset($_POST["inscrismoi"])) {
 	if (empty($_POST['login']) ||  empty($_POST['pwd']) || empty($_POST['pwd_v']) || empty($_POST['email'])) {
 		echo '<script language="javascript">';
 		echo 'alert("Veuillez remplir tous les champs.")';
 		echo '</script>';
 	}
-
-	if ($_POST['pwd'] != $_POST['pwd_v']) {
+	elseif ($_POST['pwd'] != $_POST['pwd_v']) {
 		echo '<script language="javascript">';
 		echo 'alert("Le mot de passe et sa confirmation ne correspondent pas.")';
 		echo '</script>';
 	}
+	else {
+		Utilisateur::inscription($_POST['login'], $_POST['email'], $_POST['pwd']);
+	}
 }
-
+ 
 include(dirname(__FILE__).'/../views/inscription.php');
 /*
 require_once 'models/recette.php';

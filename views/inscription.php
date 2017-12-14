@@ -40,35 +40,40 @@
 		<?php
 		 include 'views/header.php';
 		?>
-		<h2>view/inscription</h2>
-
 			<div class="row justify-content-end-center">
 				<div class="col-md-8 col-md-offset-2">
 					<p>Les informations demandées dans le formulaire suivant sont nécessaires afin de poursuivre votre inscription.</p>
-					<form action="inscription_finale.php'" method="post">
+<!--
+					 <script type="text/javascript">
+						 function validateForm() {
+							var login = document.forms["Form_i]["login"].value;
+							var pwd = document.forms["Form_i]["pwd"].value;
+							var pwd_v = document.forms["Form_i]["pwd_v"].value;
+							var email = document.forms["Form_i]["email"].value;
+							if (a == null || a == "" , b == null || b == "" , 
+								c == null || c == "", d == null || d == "") {
+								 alert("Veuillez remplir tous les champs, s'il-vous-plaît.");
+								 return false;
+							}
+							else if (pwd != pwd_v) {
+								 alert("Le mot de passe et sa confirmation ne correspondent pas.");
+								 return false;
+
+							}
+				}
+					 </script>
+-->
+					<form name="Form_i" onsubmit="return validateForm()" action="" method="post">
 						<label>Pseudo: <input type="text" name="login"/></label><br/>
 						<label>Mot de passe: <input type="password" name="pwd"/></label><br/>
 						<label>Confirmation du mot de passe: <input type="password" name="pwd_v"/></label><br/>
 						<label>Adresse e-mail: <input type="text" name="email"/></label><br/>
 						<input type="submit" name="inscrismoi" value="M'inscrire"/>
-						<?php
-if (isset($_POST["inscrismoi"])) {
-	if (empty($_POST['login']) ||  empty($_POST['pwd']) || empty($_POST['pwd_v']) || empty($_POST['email'])) {
-		echo '<script language="javascript">';
-		echo 'alert("Veuillez remplir tous les champs.")';
-		echo '</script>';
-	}
-
-	if ($_POST['pwd'] != $_POST['pwd_v']) {
-		echo '<script language="javascript">';
-		echo 'alert("Le mot de passe et sa confirmation ne correspondent pas.")';
-		echo '</script>';
-	}
-}
-?>
-
 					</form>
 				</div>
+			</div>
+
+			<div id="eventuel_probleme">
 			</div>
 
 
@@ -94,8 +99,7 @@ if (isset($_POST["inscrismoi"])) {
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
 </html>
-
