@@ -83,9 +83,10 @@ class Utilisateur extends Bdd {
 	public static function inscription($pLogin, $pEmail, $pPwd) {
 		$idU = self::nextIdUtilisateur();
 		$emailV = true;
+
 		$bdd = parent::getInstance();
 		$req = $bdd->preparation("INSERT INTO utilisateur 
-									VALUES (:idU, :login, :email, :email_v, :mdp)");
+			VALUES (:idU, :login, :email, :email_v, :mdp)");
 
 		$req->bindparam(":idU", $idU);
 		$req->bindparam(":login",$pLogin);
@@ -100,7 +101,8 @@ class Utilisateur extends Bdd {
 
 	public static function connexion($pLogin, $pEmail) {
 		// On regarde si l'utilisateur existe dans la base de données
-		$req = $bdd->preparation('SELECT * FROM utilisateur WHERE login = :login or email = :email LIMIT 1');
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM utilisateur WHERE login = :login or email = :email');
 		$req->bindparam(':login', $pLogin);
 		$req->bindparam(':email', $pEmail);
 		$req->execute();

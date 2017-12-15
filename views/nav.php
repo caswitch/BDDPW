@@ -22,8 +22,8 @@
 			<span class="caret"></span>
 		  </a>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><a href="<?php echo $BASEURL ?>/recette/create">Nouvelle recette</a></li>
-					<li><a href="<?php echo $BASEURL ?>/recette/listes_des_recettes">Liste des recettes</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/recette/nouvelle_recette">Nouvelle recette</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/recette/listes_des_recettes">Liste des recettes</a></li>
 				</ul>
 		</li>
 

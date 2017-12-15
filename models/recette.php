@@ -1,10 +1,8 @@
 <?php
 
-require_once 'models/bdd.php';
+require_once(dirname(__FILE__).'/bdd.php');
 
-class Recette {
-	private $bdd;
-
+class Recette extends Bdd {
 	private $id_recette;
 	private $nom;
 	private $description;
@@ -15,31 +13,17 @@ class Recette {
 	private $id_media;
 
 	public function __construct($pId_recette, $pNom, $pDescription, $pDifficulte, $pPrix, $pNb_pers, $pId_utilisateur, $pId_media) {
-		$this->bdd = Bdd::getInstance(); 
-
-		$this->id_recette = pId_recette;
-		$this->nom = pNom;
-		$this->description = pDescription;
-		$this->difficulte = pDifficulte;
-		$this->prix = pPrix;
-		$this->nb_pers = pNb_pers;
-		$this->id_utilisateur = pId_utilisateur;
-		$this->id_media = pId_media;
+		$this->id_recette = $pId_recette;
+		$this->nom = $pNom;
+		$this->description = $pDescription;
+		$this->difficulte = $pDifficulte;
+		$this->prix = $pPrix;
+		$this->nb_pers = $pNb_pers;
+		$this->id_utilisateur = $pId_utilisateur;
+		$this->id_media = $pId_media;
 	}
 
-	public function setIdRecette() {
-		$req = $this->bdd->requete("SELECT max(id_recette) FROM recette");
-		$id = $req->fetchColumn(0);
-		if ($id) {
-			$id = (int) $id;
-			$id++;
-		}
-		else {
-			$id = 1;
-		}
-
-		$this->id_recette = $i;
-	}
+	/* Accesseurs */
 
 	public function getIdRecette() {
 		return $this->id_recette;
@@ -101,47 +85,62 @@ class Recette {
 		return $this->id_media;
 	}
 
-	public static function create($pNom, $pDescription, $pDifficulte, $pPrix, $pNb_pers, $pId_utilisateur, $pId_media) {
-		$idR = getIdRecette();
+	public static function nextIdRecette() {
+		$bdd = parent::getInstance();
+		$req = $bdd->requete("SELECT max(id_recette) FROM recette");
+		$id = $req->fetchColumn(0);
+		if ($id) {
+			$id = (int) $id;
+			$id = $id + 1;
+		}
+		else {
+			$id = 1;
+		}
+		return $id;
+	}
 
-		$recette = new Recette($idR, $pNom, $pDescription, $pDifficulte, $pPrix, $pNb_pers, $pId_utilisateur, $pId_media);
+	public static function nouvelle_recette($pNom, $pDescription, $pDifficulte, $pPrix, $pNb_pers, $pId_utilisateur, $pId_media) {
+		$idR = self::nextIdRecette();
 
-		$recette = new Recette(1,$titre,$difficulte,$dateAjout);
-
-		$req = self::$bdd->prepare("INSERT INTO recette	VALUES (:id_r, :nom, :desc, :diff, :prix, :nb_pers, :id_u, :id_m)");
-		$req->bindparam(":id_r",$idR);
-		$req->bindparam(":nom",$pNom);
-		$req->bindparam(":desc",$pDescription);
-		$req->bindparam(":diff",$pDifficulte);
-		$req->bindparam(":prix",$pPrix);
-		$req->bindparam(":nb_pers",$pNb_pers);
-		$req->bindparam(":id_u",$pId_utilisateur);
-		$req->bindparam(":id_m",$pId_media);
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation("INSERT INTO recette
+			VALUES (:idR, :nom, :desc, :diff, :prix, :nb_pers, :id_u, :id_m)");
+		$req->bindparam(":idR", $idR);
+		$req->bindparam(":nom", $pNom);
+		$req->bindparam(":desc", $pDescription);
+		$req->bindparam(":diff", $pDifficulte);
+		$req->bindparam(":prix", $pPrix);
+		$req->bindparam(":nb_pers", $pNb_pers);
+		$req->bindparam(":id_u", $pId_utilisateur);
+		$req->bindparam(":id_m", $pId_media);
 
 		$req->execute();
 
 		return $req;
 	}
 
-	public static function getById($idR) {
- 		$idR = (int) $idR;
-
-		$req = self::$bdd->prepare('SELECT * FROM recette WHERE id_recette = :id');
-		$req->bindValue(':id', $idR, PDO::PARAM_INT);
+	public static function getById($pIdR) {
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM recette WHERE id_recette = :idR');
+		$req->bindparam(':id_recette', $pIdR);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+		$d = $req->fetch(PDO::FETCH_ASSOC);
+
+		if ($req->rowCount() > 0) {
 			$recette = new Recette($d['ID_RECETTE'], $d['NOM'], $d['DESCRIPTION'], $d['DIFFICULTE'], $d['PRIX'], $d['NB_PERS'], $d['ID_UTILISATEUR'], $d['ID_MEDIA']);
 			return $recette;
-		} else {
-			return null; }
+		}
+		else {
+			return null;
+		}
 	}
 
 	public static function getAll() {
 		$recettes = array();
 
-		$req = self::$bdd->prepare('SELECT * FROM recette');
-		$req->execute();
+		$bdd = parent::getInstance();
+		$req = $bdd->requete('SELECT * FROM recette');
 
 		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$recettes[] = new Recette($d['ID_RECETTE'], $d['NOM'], $d['DESCRIPTION'], $d['DIFFICULTE'], $d['PRIX'], $d['NB_PERS'], $d['ID_UTILISATEUR'], $d['ID_MEDIA']);

@@ -1,9 +1,9 @@
 <?php session_start(); 
-
+/*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+ */
 require_once 'models/bdd.php';
 
 $BASEURL = dirname($_SERVER['SCRIPT_NAME']);
@@ -63,7 +63,7 @@ if (isset($_SERVER['PATH_INFO'])) {
 			require_once $controller_file;
 			$controller_name = 'Controller_'.ucfirst($controller);
 			if (class_exists($controller_name)) {
-				$c = new $controller_name;
+				$c = new $controller_name(array('BASEURL' => $BASEURL));
 				if (method_exists($c, $method)) {
 					$found = true;
 					call_user_func_array(array($c, $method), $params);
@@ -75,8 +75,6 @@ if (isset($_SERVER['PATH_INFO'])) {
 	if (!$found) {
 		echo "<p>Page indisponible</p>";
 	}
-} else {
-		echo "Page principale de l'application de gestion de recettes !";
 }
 
 $content = ob_get_clean();
@@ -95,16 +93,16 @@ $content = ob_get_clean();
 	<title> Ratatouille </title>
 
     <!-- Custom styles for this template -->
-    <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="<?php echo $BASEURL ?>/css/shop-homepage.css" rel="stylesheet">
 
 	<!--favicons-->
-	<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-	<link rel="manifest" href="img/manifest.json">
-	<link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
-	<link rel="shortcut icon" href="img/favicon.ico">
-	<meta name="msapplication-config" content="img/browserconfig.xml">
+	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $BASEURL ?>/img/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo $BASEURL ?>/img/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="<?php echo $BASEURL ?>/img/favicon-16x16.png">
+	<link rel="manifest" href="<?php echo $BASEURL ?>/img/manifest.json">
+	<link rel="mask-icon" href="<?php echo $BASEURL ?>/img/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="<?php echo $BASEURL ?>/img/favicon.ico">
+	<meta name="msapplication-config" content="<?php echo $BASEURL ?>/img/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 </head>
 
@@ -113,24 +111,26 @@ $content = ob_get_clean();
 	 include 'views/nav.php';
 	?>
 
-	<p class="text-center">
-	<?php
-	 if (isset($_SESSION['message'])) { 
-		 echo $_SESSION['message'];
-		 unset($_SESSION['message']);
-	 }
-	?>
-	</p>
 
     <!-- Page Content -->
     <div class="container">
-	<?php
-	 include 'views/header.php';
-	?>
+		<?php
+		 include 'views/header.php';
+		?>
 
-	<p class="text-center">
-	 <?php echo $content ?>
-	</p>
+		<p class="text-center">
+		 <?php echo $content ?>
+		</p>
+
+		<p class="text-center">
+		<?php
+			var_dump($_SESSION);
+		 if (isset($_SESSION['message'])) { 
+			 echo $_SESSION['message'];
+			 unset($_SESSION['message']);
+		 }
+		?>
+		</p>
 
 
       <div class="row justify-content-end-center">
@@ -146,13 +146,13 @@ $content = ob_get_clean();
       </ol>
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img class="first-slide" src="img/carousselle1.png" alt="First slide">
+          <img class="first-slide" src="<?php echo $BASEURL ?>/img/carousselle1.png" alt="First slide">
         </div>
         <div class="item">
-          <img class="second-slide" src="img/carousselle2.png" alt="Second slide">
+          <img class="second-slide" src="<?php echo $BASEURL ?>/img/carousselle2.png" alt="Second slide">
         </div>
         <div class="item">
-          <img class="third-slide" src="img/carousselle3.png" alt="Third slide">
+          <img class="third-slide" src="<?php echo $BASEURL ?>/img/carousselle3.png" alt="Third slide">
         </div>
       </div>
       <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
