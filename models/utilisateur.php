@@ -14,23 +14,23 @@ class Utilisateur extends Bdd {
 	
 
 	function __construct($pId_utilisateur, $pLogin, $pEmail, $pEmail_v, $pMdp) {
-		$this->id_utilisateur = pId_utilisateur;
-		$this->login = pLogin;
-		$this->email = pEmail;
-		$this->email_v = pEmail_v;
-		$this->mdp = pMdp;
+		$this->id_utilisateur = $pId_utilisateur;
+		$this->login = $pLogin;
+		$this->email = $pEmail;
+		$this->email_v = $pEmail_v;
+		$this->mdp = $pMdp;
 	}
 
 	/* Accesseurs */
-	public function getIdU() {
+	public function getIdUtilisateur() {
 		return $this->id_utilisateur;
 	}
 
-	public function setIdU($id) {
-		$id = (int) $id;
+	public function setIdUtilisateur($pIdU) {
+		$pIdU = (int) $pIdU;
 
-		if ($id > 0) {
-			$this->_id = $id;
+		if ($pIdU > 0) {
+			$this->id_utilisateur = $pIdU;
 		}
 	}
 
@@ -39,7 +39,7 @@ class Utilisateur extends Bdd {
 	}
 
 	public function setLogin($pLogin) {
-			$this->login = $pLogin;
+		$this->login = $pLogin;
 	}
 
 	public function getEmail() {
@@ -47,7 +47,7 @@ class Utilisateur extends Bdd {
 	}
 
 	public function setEmail($pEmail) {
-			$this->email = $pEmail;
+		$this->email = $pEmail;
 	}
 
 	public function getEmailV() {
@@ -55,7 +55,7 @@ class Utilisateur extends Bdd {
 	}
 
 	public function setEmailV($pEmailV) {
-			$this->email_v = $pEmailV;
+		$this->email_v = $pEmailV;
 	}
 
 	public function getMdp() {
@@ -63,7 +63,7 @@ class Utilisateur extends Bdd {
 	}
 
 	public function setMdp($pMdp) {
-			$this->mdp = $pMdp;
+		$this->mdp = $pMdp;
 	}
 
 	public static function nextIdUtilisateur() {
@@ -99,17 +99,16 @@ class Utilisateur extends Bdd {
 		return $req;
     }
 
-	public static function connexion($pLogin, $pEmail) {
+	public static function connexion($pLogin, $pEmail, $pMdp) {
 		// On regarde si l'utilisateur existe dans la base de données
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM utilisateur WHERE login = :login or email = :email');
+		$req = $bdd->preparation('SELECT * FROM utilisateur WHERE login = :login and mdp = :mdp or email = :email and mdp = :mdp');
 		$req->bindparam(':login', $pLogin);
 		$req->bindparam(':email', $pEmail);
+		$req->bindparam(':mdp', $pMdp);
 		$req->execute();
 
-		$d = $req->fetch(PDO::FETCH_ASSOC);
-
-		if ($req->rowCount() > 0) {
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$_SESSION['login'] = $d['ID_UTILISATEUR'];
 			$_SESSION['connect'] = true;
 			$user = new Utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_VERIFIE'], $d['MDP']);
@@ -122,13 +121,13 @@ class Utilisateur extends Bdd {
 	}
 
 	public static function est_connecte() {
-		if (isset($_SESSION['connect']) && $_SESSION['connect'] = true) {
+		if (isset($_SESSION['connect']) && $_SESSION['connect'] == true) {
 			return true;
 		}
+		return false;
 	}
 
 	public static function deconnexion() {
-		session_destroy();
 		unset($_SESSION['login']);
 		unset($_SESSION['connect']);
 	}

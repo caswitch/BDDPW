@@ -1,4 +1,5 @@
 <!-- Navigation -->
+<?php require_once './models/utilisateur.php'; ?>
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
 	<div class="navbar-header">
@@ -22,24 +23,21 @@
 			<span class="caret"></span>
 		  </a>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><a href="<?php echo $BASEURL ?>/index.php/recette/nouvelle_recette">Nouvelle recette</a></li>
-					<li><a href="<?php echo $BASEURL ?>/index.php/recette/listes_des_recettes">Liste des recettes</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/recette/creation">Nouvelle recette</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/recette/listeRecettes">Liste des recettes</a></li>
 				</ul>
 		</li>
 
-		<?php if (!isset($_SESSION['connect'])) { ?> 
+		<?php if (!Utilisateur::est_connecte()) { ?> 
 		<li class="">
 		  <a class="nav-link" href="<?php echo $BASEURL ?>/index.php/utilisateur/connexion">Connexion</a>
 		</li>
-		<?php } ?>
-		<?php if (isset($_SESSION['connect'])) { ?> 
-		<li class="">
-		  <a class="nav-link" href="<?php echo $BASEURL ?>/index.php/utilisateur/deconnexion">Déconnexion</a>
-		</li>
-		<?php } ?>
-		<?php if (!isset($_SESSION['connect'])) { ?> 
 		<li class="">
 		  <a class="nav-link" href="<?php echo $BASEURL ?>/index.php/utilisateur/inscription">Inscription</a>
+		</li>
+		<?php } else { ?>
+		<li class="">
+		  <a class="nav-link" href="<?php echo $BASEURL ?>/index.php/utilisateur/deconnexion">Déconnexion</a>
 		</li>
 		<?php } ?>
 	  </ul>

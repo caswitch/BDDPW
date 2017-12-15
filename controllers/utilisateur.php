@@ -26,13 +26,12 @@ class Controller_Utilisateur {
 			else {
 				Utilisateur::inscription($_POST['login'], $_POST['email'], $_POST['pwd']);
 				$_SESSION['message'] = 'Bienvenue sur ratatouille ! 😊'; 
-				$BASEURL = dirname($_SERVER['SCRIPT_NAME']);
 				$home = 'Location: '.$BASEURL.'/index.php';
 				header($home);
 				exit();
+				return;
 			}
 		}
-		 
  		include 'views/inscription.php';
 	}
 
@@ -51,18 +50,25 @@ class Controller_Utilisateur {
 					echo '</script>';
 				}
 				else if (!empty($_POST['login'])) {
-					Utilisateur::connexion($_POST['login'], "");
+					$u = Utilisateur::connexion($_POST['login'], "", $_POST['pwd']);
 				}
 				else if (!empty($_POST['email'])) {
-					Utilisateur::connexion("", $_POST['email']);
+					$u = Utilisateur::connexion("", $_POST['email'], $_POST['pwd']);
 				}
 
-				$_SESSION['message'] = 'En cuisine ! 😋'; 
+				if (!is_null($u)) {
+					$_SESSION['message'] = 'En cuisine ! 😋'; 
 
-				$home = 'Location: '.$BASEURL.'/index.php';
-				header($home);
+					$home = 'Location: '.$BASEURL.'/index.php';
+					header($home);
+					exit();
+				}
+				else {
+					echo '<script language="javascript">';
+					echo 'alert("Informations renseignées incorrectes. 😔")';
+					echo '</script>';
+				}
 			}
-
 			include 'views/connexion.php';
 		}
 	}

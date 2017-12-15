@@ -25,12 +25,20 @@ class Recette extends Bdd {
 
 	/* Accesseurs */
 
+	public function setIdRecette($pIdR) {
+		$pIdR = (int) $pIdR;
+
+		if ($pIdR > 0) {
+			$this->id_recette = $pIdR;
+		}
+	}
+
 	public function getIdRecette() {
 		return $this->id_recette;
 	}
 
 	public function setNom($pNom) {
-		$this->pNom;
+		$this->nom = $pNom;
 	}
 
 	public function getNom() {
@@ -38,7 +46,7 @@ class Recette extends Bdd {
 	}
 
 	public function setDescription($pDescription) {
-		$this->description;
+		$this->description = $pDescription;
 	}
 
 	public function getDescription() {
@@ -46,7 +54,7 @@ class Recette extends Bdd {
 	}
 
 	public function setDifficulte($pDifficulte) {
-		$this->difficulte;
+		$this->difficulte = $pDifficulte;
 	}
 
 	public function getDifficulte() {
@@ -54,7 +62,7 @@ class Recette extends Bdd {
 	}
 
 	public function setPrix($pPrix) {
-		$this->prix;
+		$this->prix = $pPrix;
 	}
 
 	public function getPrix() {
@@ -62,7 +70,7 @@ class Recette extends Bdd {
 	}
 
 	public function setNb_pers($pNb_pers) {
-		$this->nb_pers;
+		$this->nb_pers = $pNb_pers;
 	}
 
 	public function getNb_pers() {
@@ -99,7 +107,7 @@ class Recette extends Bdd {
 		return $id;
 	}
 
-	public static function nouvelle_recette($pNom, $pDescription, $pDifficulte, $pPrix, $pNb_pers, $pId_utilisateur, $pId_media) {
+	public static function creation($pNom, $pDescription, $pDifficulte, $pPrix, $pNb_pers, $pId_utilisateur, $pId_media) {
 		$idR = self::nextIdRecette();
 
 		$bdd = parent::getInstance();

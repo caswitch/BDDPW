@@ -1,4 +1,4 @@
-<?php session_start(); 
+<?php 
 /*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -45,6 +45,7 @@ else {
  */
 
 ob_start();
+session_start(); 
 
 if (isset($_SERVER['PATH_INFO'])) {
 	$args = explode('/', $_SERVER['PATH_INFO']);
@@ -92,6 +93,26 @@ $content = ob_get_clean();
 
 	<title> Ratatouille </title>
 
+	<style type="text/css">
+      body{margin:40px;}
+      .btn-circle {
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        padding: 3px 0;
+        font-size: 11px;
+        line-height: 1.428571429;
+        border-radius: 7px;
+      }
+      .btn-circle.btn-lg {
+        width: 25px;
+        height: 25px;
+        padding: 6px 6px;
+        font-size: 11px;
+        line-height: 1.33;
+        border-radius: 12px;
+      }
+  </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo $BASEURL ?>/css/shop-homepage.css" rel="stylesheet">
 
@@ -122,15 +143,15 @@ $content = ob_get_clean();
 		 <?php echo $content ?>
 		</p>
 
-		<p class="text-center">
-		<?php
-			var_dump($_SESSION);
-		 if (isset($_SESSION['message'])) { 
-			 echo $_SESSION['message'];
-			 unset($_SESSION['message']);
-		 }
-		?>
-		</p>
+		<?php 
+		if (isset($_SESSION['message'])) { ?>
+			<div class="alert alert-info">
+			<?php
+				 echo $_SESSION['message'];
+				 unset($_SESSION['message']);
+			?>
+			</div>
+		<?php } ?>
 
 
       <div class="row justify-content-end-center">
