@@ -33,10 +33,5 @@ class Bdd {
 		$query = $this->bdd->prepare($req);
 		return $query;
 	}
-
-	public function execution($query) {
-		$req = $query->execute();
-		return $req;
-	}
 }
 ?>
