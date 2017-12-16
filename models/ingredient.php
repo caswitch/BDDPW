@@ -95,7 +95,7 @@ class Ingredient extends Bdd {
 
 	public static function nextIdIngredient() {
 		$bdd = parent::getInstance();
-		$req = $bdd->requete("SELECT max(id_media) FROM media");
+		$req = $bdd->requete("SELECT max(id_ingredient) FROM ingredient");
 		$id = $req->fetchColumn(0);
 		if ($id) {
 			$id = (int) $id;
@@ -105,6 +105,16 @@ class Ingredient extends Bdd {
 			$id = 1;
 		}
 		return $id;
+	}
+
+	// Renvoie le nombre d'ingrédients dans la base
+	// Ce nombre correspont au plus grand 
+	public static function nombreIngredient() {
+		$bdd = parent::getInstance();
+		$req = $bdd->requete("SELECT count(*) FROM ingredient");
+		$nbr = $req->fetchColumn(0);
+
+		return $nbr;
 	}
 
 	public static function creation($pNom, $pUnite, $pCalories, $pLipides, $pGlucides, $pProtides, $pId_media) {

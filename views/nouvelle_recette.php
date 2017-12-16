@@ -71,9 +71,10 @@ Faite ressurgir le souvenir de la ratatouille de votre enfance !">
     <label for="legM">Légende de l'image (optionnel)</label>
     <input type="text" class="form-control" name="legM" id="legM" placeholder="Photo de ratatouille.">
   </div>
+<!--
   <div class="form-group">
     <label for="ing">Ingrédients</label>
-	<select class="form-control selectpicker" multiple data-live-search="true">
+	<select class="form-control selectpicker" data-live-search="true" name="test">
 	  <option>1</option>
 	  <option>2</option>
 	  <option>3</option>
@@ -81,8 +82,8 @@ Faite ressurgir le souvenir de la ratatouille de votre enfance !">
 	  <option>5</option>
 	</select>
   </div>
-
-  <button type="submit" class="btn btn-default" name="cuisineca">En cusine !
+-->
+  <button type="submit" class="btn btn-default" name="cuisineca">Suivant
 	<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>
   </button>
 </form>
