@@ -136,12 +136,25 @@ class Ingredient extends Bdd {
 		$req->bindparam(':idI', $pIdI);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {}
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$ing = new Ingredient($d['ID_INGREDIENT'], $d['NOM'], $d['UNITE'], $d['CALORIES'], $d['LIPIDES'], $d['GLUCIDES'], $d['PROTIDES'], $d['ID_MEDIA']);
 			return $ing;
 		}
 		else {
 			return null;
 		}
+	}
+
+	public static function getAll() {
+		$ingredients = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->requete('SELECT * FROM ingredient');
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$ingredients[] = new Ingredient($d['ID_INGREDIENT'], $d['NOM'], $d['UNITE'], $d['CALORIES'], $d['LIPIDES'], $d['GLUCIDES'], $d['PROTIDES'], $d['ID_MEDIA']);
+		}
+
+		return $ingredients;	
 	}
 }

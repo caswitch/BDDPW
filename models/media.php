@@ -96,7 +96,7 @@ class Media extends Bdd {
 		$req->bindparam(':idM', $pIdM);
 		$req->execute();
 
-		if($d = $req->fetch(PDO::FETCH_ASSOC)) {}
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$media = new Media($d['ID_MEDIA'], $d['TYPE'], $d['URL'], $d['LEGENDE']);
 			return $media;
 		}

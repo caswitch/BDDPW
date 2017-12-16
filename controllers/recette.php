@@ -74,7 +74,6 @@ class Controller_Recette {
 				// Affichage de la liste de toutes les recettes
 				include 'views/nouvelle_recette2.php';
 
-				echo "QUELQUE CHOSE KJELAKJLKEJZALKJGGGGGGGLKJEAGLKJ\nlkeamkjhagmkjhag\njkehzak";
 				/*
 				exit();
 				*/
@@ -99,6 +98,5 @@ class Controller_Recette {
 		// Affichage de la recette
     	include 'views/une_recette.php';
 	}
-	
 }
 
