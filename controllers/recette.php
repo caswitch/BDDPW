@@ -14,72 +14,72 @@ class Controller_Recette {
 	public function creation() {
 		$BASEURL = $this->context['BASEURL'];
 
+		/* Vérification des saisies de l'utilisateur
+		 * au moment où il soumet sa recette.
+		 * Le media et sa légendes sont optionnels.
+		 */
 		if (isset($_POST["cuisineca"])) {
-			var_dump($_POST['nomNR']);
-			var_dump($_POST['descNR']);
-			var_dump($_POST['diffNR']);
-			var_dump($_POST['prixNR']);
-			var_dump($_POST['nb_persNR']);
-			var_dump($_POST['mediaNR']);
-			var_dump($_POST['legNR']);
-			exit(1);
-			if (empty($_POST['nom']) ||  empty($_POST['desc']) || empty($_POST['diff']) || empty($_POST['prix']) || empty($_POST['nb_pers'])) {
+			if (empty($_POST['nomNR']) || empty($_POST['descNR']) || 
+				empty($_POST['diffNR']) || empty($_POST['prixNR']) ||
+				empty($_POST['nb_persNR'])) {
+				// Si les champs obligatoires ne sont pas remplis,
+				// une alerte apparait et le formulaire doit être
+				// remplis à nouveau.
 				echo '<script language="javascript">';
 				echo 'alert("Ta recette n\'est pas complète ! 😱")';
 				echo '</script>';
+			
 			}
 			else {
-				if (!empty($_POST['url'])) {
-					// Si une url pour un média a été renseignée
-					// mais pas le type du média
-					if (empty($_POST['typ'])) {
-						echo '<script language="javascript">';
-						echo 'alert("De quel type est ton média ?")';
-						echo '</script>';
-					}
-					else {
-						if (!empty($_POST['leg'])) {
-							$media = Media::creation($_POST['typ'], 
-								$_POST['url'], $_POST['leg']);
-						}
-						else {
-							// Pas de légende au média
-							$media = Media::creation($_POST['typ'], 
-								$_POST['url'], "");
-						}
-						$idM = Media::media.getIdMedia();
-					}
+				// Si les champs obligatoires sont remplis,
+				// on vérifie si c'est le cas des champs optionnels.
+				if (!empty($_POST['urlM']) && !empty($_POST['legM'])) {
+					$idM = Media::nextIdMedia();
+					$media = Media::creation("image", $_POST['urlM'], $_POST['legM']);
+				}
+				else if (!empty($_POST['urlM']) && empty($_POST['legM'])) {
+					$idM = Media::nextIdMedia();
+					$media = Media::creation("image", $_POST['urlM'], "");
 				}
 				else {
-					// L'utilisateur n'a pas rempli d'url
-					// On prend l'Id de l'image par défaut
-					$idM = 35; 
+					// Si les champs optionnels (pour le media) n'ont
+					// pas été remplis, on utilise une image par défaut.
+					// L'id de l'image par défaut est 35.
+					$idM = "35";
 				}
-				if (!Utilisateur::est_connecte()) {
-					// Utilisateur anonyme
-					$idU = 0;
+				// On vérifie si l'utilisateur qui créé la recette 
+				// est connecté ou non.
+				// Si l'utilisateur est connecté, on utilise son id,
+				// sinon, on utilise l'id de l'utilisateur par défaut.
+				if (Utilisateur::est_connecte()) {
+					$idU = Utilisateur::getIdUtilisateur();
 				}
 				else {
-					$u = new Utilisateur();
-					$idU = $u->getIdUtilisateur();
+					// L'id de l'utilisateur par défaut est 1.
+					$idU = "1";
 				}
 
-				Recette::nouvelle_recette($_POST['nom'], $_POST['desc'], $_POST['diff'], $_POST['prix'], $_POST['nb_pers'], $idU, $idM);
-
-				$_SESSION['message'] = 'Miam ! 😊'; 
+				// On créé la recette.
+				Recette::creation($_POST['nomNR'], $_POST['descNR'], $_POST['diffNR'], $_POST['prixNR'], $_POST['nb_persNR'], $idU, $idM);
+				// Maintenant que la recette est créé, l'utilisateur va être 
+				// redirigé vers la page d'acceuil.
+				// Il y trouvera un petit message : $_SESSION['message'.
+				$_SESSION['message'] = 'Miam cette nouvelle recette ! 😊'; 
 
 				$home = 'Location: '.$BASEURL.'/index.php';
 				header($home);
 				exit();
 			}
 		}
-
+		// Affichage du formulaire de création d'une recette
 		include 'views/nouvelle_recette.php';
 	}
 
 	public function listeRecettes() {
 		$BASEURL = $this->context['BASEURL'];
 	 	$array_rec = Recette::getAll();
+
+		// Affichage de la liste de toutes les recettes
  		include 'views/liste_des_recettes.php';
 	}
 
@@ -87,6 +87,7 @@ class Controller_Recette {
 		$BASEURL = $this->context['BASEURL'];
 		$rec = Recette::getById($pId);
 
+		// Affichage de la recette
     	include 'views/une_recette.php';
 	}
 	

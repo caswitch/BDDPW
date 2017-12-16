@@ -85,6 +85,7 @@ class Utilisateur extends Bdd {
 		$emailV = true;
 
 		$bdd = parent::getInstance();
+
 		$req = $bdd->preparation("INSERT INTO utilisateur 
 			VALUES (:idU, :login, :email, :email_v, :mdp)");
 

@@ -111,16 +111,17 @@ class Recette extends Bdd {
 		$idR = self::nextIdRecette();
 
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation("INSERT INTO recette
-			VALUES (:idR, :nom, :desc, :diff, :prix, :nb_pers, :id_u, :id_m)");
+
+		$req = $bdd->preparation("INSERT INTO recette VALUES (:idR, :nom, :descr, :diff, :prix, :nb_pers, :idU, :idM)");
+
 		$req->bindparam(":idR", $idR);
 		$req->bindparam(":nom", $pNom);
-		$req->bindparam(":desc", $pDescription);
+		$req->bindparam(":descr", $pDescription);
 		$req->bindparam(":diff", $pDifficulte);
 		$req->bindparam(":prix", $pPrix);
 		$req->bindparam(":nb_pers", $pNb_pers);
-		$req->bindparam(":id_u", $pId_utilisateur);
-		$req->bindparam(":id_m", $pId_media);
+		$req->bindparam(":idU", $pId_utilisateur);
+		$req->bindparam(":idM", $pId_media);
 
 		$req->execute();
 
@@ -133,9 +134,7 @@ class Recette extends Bdd {
 		$req->bindparam(':id_recette', $pIdR);
 		$req->execute();
 
-		$d = $req->fetch(PDO::FETCH_ASSOC);
-
-		if ($req->rowCount() > 0) {
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$recette = new Recette($d['ID_RECETTE'], $d['NOM'], $d['DESCRIPTION'], $d['DIFFICULTE'], $d['PRIX'], $d['NB_PERS'], $d['ID_UTILISATEUR'], $d['ID_MEDIA']);
 			return $recette;
 		}

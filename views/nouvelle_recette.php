@@ -63,13 +63,13 @@ Faite ressurgir le souvenir de la ratatouille de votre enfance !">
     <input type="number" class="form-control" name="nb_persNR" id="nb_persNR" min="1" max="100" placeholder="4">
   </div>
   <div class="form-group">
-    <label for="mediaNR">Photo de la recette</label>
-    <input type="file" id="mediaNR" name="mediaNR">
+    <label for="urlM">Photo de la recette</label>
+    <input type="file" id="urlM" name="urlM">
     <p class="help-block">Une image par défaut illustrera votre recette en l'absence de sélection d'une photo. 😉</p>
   </div>
   <div class="form-group">
-    <label for="legNR">Légende de l'image (optionnel)</label>
-    <input type="text" class="form-control" name="legNR" id="legNR" placeholder="Photo de ratatouille.">
+    <label for="legM">Légende de l'image (optionnel)</label>
+    <input type="text" class="form-control" name="legM" id="legM" placeholder="Photo de ratatouille.">
   </div>
 
   <button type="submit" class="btn btn-default" name="cuisineca">En cusine !

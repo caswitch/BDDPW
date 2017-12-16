@@ -72,18 +72,22 @@ class Media extends Bdd {
 
 		$bdd = parent::getInstance();
 
-		if (is_empty($pLeg)) {
-			$req = $bdd->preparation("INSERT INTO media (ID_MEDIA,TYPE,URL)	
-				VALUES (:idM, :type, :url)");
+		if (empty($pLeg)) {
+			$req = $bdd->preparation("INSERT INTO media (ID_MEDIA,TYPE,URL)	VALUES (:idM, :type, :url)");
 
 		}
 		else {
-			$req = $bdd->preparation("INSERT INTO media
-				VALUES (:idM, :type, :url, :legende)");
+			$req = $bdd->preparation("INSERT INTO media VALUES (:idM, :type, :url, :legende)");
 			$req->bindparam(":legende", $pLeg);
 		}
-
-		$req->bindparam(":idM", $idU);
+/*
+		var_dump($idM);
+		var_dump($pLeg);
+		var_dump($pTyp);
+		var_dump($pUrl);
+		exit(1);
+ */
+		$req->bindparam(":idM", $idM);
 		$req->bindparam(":type", $pTyp);
 		$req->bindparam(":url", $pUrl);
 
