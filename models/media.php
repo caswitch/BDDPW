@@ -80,13 +80,7 @@ class Media extends Bdd {
 			$req = $bdd->preparation("INSERT INTO media VALUES (:idM, :type, :url, :legende)");
 			$req->bindparam(":legende", $pLeg);
 		}
-/*
-		var_dump($idM);
-		var_dump($pLeg);
-		var_dump($pTyp);
-		var_dump($pUrl);
-		exit(1);
- */
+
 		$req->bindparam(":idM", $idM);
 		$req->bindparam(":type", $pTyp);
 		$req->bindparam(":url", $pUrl);
@@ -98,13 +92,11 @@ class Media extends Bdd {
 
 	public static function getById($pIdM) {
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM media WHERE id_media = :idM');
+		$req = $bdd->preparation('SELECT * FROM media WHERE id_media=:idM');
 		$req->bindparam(':idM', $pIdM);
 		$req->execute();
 
-		$d = $req->fetch(PDO::FETCH_ASSOC);
-
-		if ($req->rowCount() > 0) {
+		if($d = $req->fetch(PDO::FETCH_ASSOC)) {}
 			$media = new Media($d['ID_MEDIA'], $d['TYPE'], $d['URL'], $d['LEGENDE']);
 			return $media;
 		}
@@ -112,5 +104,4 @@ class Media extends Bdd {
 			return null;
 		}
 	}
-
 }

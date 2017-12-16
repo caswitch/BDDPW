@@ -3,6 +3,7 @@
 require_once 'models/recette.php';
 require_once 'models/utilisateur.php';
 require_once 'models/media.php';
+require_once 'models/ingredient.php';
 
 class Controller_Recette {
 	private $context;
@@ -62,13 +63,21 @@ class Controller_Recette {
 				// On créé la recette.
 				Recette::creation($_POST['nomNR'], $_POST['descNR'], $_POST['diffNR'], $_POST['prixNR'], $_POST['nb_persNR'], $idU, $idM);
 				// Maintenant que la recette est créé, l'utilisateur va être 
-				// redirigé vers la page d'acceuil.
+				// redirigé vers la 2ème page de création de recette.
 				// Il y trouvera un petit message : $_SESSION['message'.
-				$_SESSION['message'] = 'Miam cette nouvelle recette ! 😊'; 
-
+				$_SESSION['message'] = 'Première étape accomplie ! 😊'; 
+				/*
 				$home = 'Location: '.$BASEURL.'/index.php';
 				header($home);
+				*/
+				$array_ing = Ingredient::getAll();
+				// Affichage de la liste de toutes les recettes
+				include 'views/nouvelle_recette2.php';
+
+				echo "QUELQUE CHOSE KJELAKJLKEJZALKJGGGGGGGLKJEAGLKJ\nlkeamkjhagmkjhag\njkehzak";
+				/*
 				exit();
+				*/
 			}
 		}
 		// Affichage du formulaire de création d'une recette

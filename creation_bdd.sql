@@ -53,7 +53,7 @@ CREATE TABLE INGREDIENT (
 	lipides			NUMBER(8,4),
 	glucides		NUMBER(8,4),
 	protides		NUMBER(8,4),
-	id_media		NUMBER(8)		NOT NULL,
+	id_media		NUMBER(8),
 	PRIMARY KEY (id_ingredient)
 --	FOREIGN KEY (id_media) REFERENCES MEDIA(id_media)
 );

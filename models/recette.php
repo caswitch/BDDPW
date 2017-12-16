@@ -130,7 +130,7 @@ class Recette extends Bdd {
 
 	public static function getById($pIdR) {
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM recette WHERE id_recette = :idR');
+		$req = $bdd->preparation('SELECT * FROM recette WHERE id_recette=:idR');
 		$req->bindparam(':id_recette', $pIdR);
 		$req->execute();
 
