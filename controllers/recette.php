@@ -148,8 +148,8 @@ class Controller_Recette {
 					// table RECETTE_INGREDIENT.
 					foreach ($checked_arr as $checked_ing) {
 						$idIngredient = $checked_ing;
-						var_dump($idIngredient);
-						var_dump($quantite_arr[$idIngredient]);
+						//var_dump($idIngredient);
+						//var_dump($quantite_arr[$idIngredient]);
 						Recette_ingredient::creation($quantite_arr[$idIngredient], $idRecette, $idIngredient);
 					}
 
@@ -186,7 +186,7 @@ class Controller_Recette {
     	include 'views/une_recette.php';
 	}
 
-	public function rechercheParIngredient() {
+	public function rechercheParUnIngredient() {
 		$BASEURL = $this->context['BASEURL'];
 		$afficheListe = false;
 
@@ -194,13 +194,13 @@ class Controller_Recette {
 	 	$array_ing = Ingredient::getAll();
 
 		if (isset($_POST["recherche"])) {
-			if (empty($_POST['selectIng1'])) {
+			if (empty($_POST['selectIng'])) {
 				echo '<script language="javascript">';
 				echo 'alert("La recherche par ingrédient nécessite un ingrédient sélectionné.")';
 				echo '</script>';
 			}
 			else {
-				$idIngredient = Ingredient::getIdByNom($_POST['selectIng1']);
+				$idIngredient = Ingredient::getIdByNom($_POST['selectIng']);
 				$array_id = Recette_ingredient::getIdRecetteByIdIngredient($idIngredient);
 				$array_rec = array();
 				//var_dump($array_rec[1]);
@@ -213,11 +213,53 @@ class Controller_Recette {
 		}
 		
 		// Affichage le formulaire de recherche
-    	include 'views/recherche.php';
+    	include 'views/recherche_par_un.php';
 		if ($afficheListe == true) {
 			// Affichage de la liste de toutes les recettes
 			include 'views/liste_des_recettes.php';
 		}
+		$afficheListe = false;
+	}
+
+	public function rechercheParDesIngredients() {
+		$BASEURL = $this->context['BASEURL'];
+		$afficheListe = false;
+
+		// On affiche la liste de tous les ingrédients de la base
+	 	$array_ing = Ingredient::getAll();
+
+		if (isset($_POST["recherchepardes"])) {
+			if (!isset($_POST['checkbox'])) {
+				echo '<script language="javascript">';
+				echo 'alert("La recherche doit contenir au moins un ingrédient.")';
+				echo '</script>';
+			}
+			else {
+				$checked_arr  = $_POST['checkbox'];
+				$array_idI = array();
+
+				foreach ($checked_arr as $checked_ing) {
+					$array_idI[] = $checked_ing;
+				}
+
+				$array_id = Recette_ingredient::getIdRecetteByIdIngredients($array_idI);
+
+				$array_rec = array();
+
+				foreach ($array_id as $idRecette) {
+					$array_rec[] = Recette::getById($idRecette);
+				}
+				$afficheListe = true;
+			}
+		}
+		
+		// Affichage le formulaire de recherche
+    	include 'views/recherche_par_des.php';
+		if ($afficheListe == true) {
+			// Affichage de la liste de toutes les recettes
+			include 'views/liste_des_recettes.php';
+		}
+		$afficheListe = false;
 	}
 }
 

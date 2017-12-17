@@ -121,4 +121,32 @@ class Recette_ingredient extends Bdd {
 
 		return $r_i;
 	}
+
+	public static function getIdRecetteByIdIngredients($pIdIs) {
+		$r_i = array();
+
+		$bdd = parent::getInstance();
+
+		// Nombre d'ingrédients recherchés
+		$i = 0;
+		$sql;
+
+		foreach ($pIdIs as $idI) {
+			if ($i == 0) {
+				$sql = $sql."SELECT id_recette FROM recette_ingredient WHERE id_ingredient=".$idI;
+			}
+			else {
+				$sql = $sql."INTERSECT SELECT id_recette FROM recette_ingredient WHERE id_ingredient=".$idI;
+			}
+			$i++;
+		}
+
+		$req = $bdd->requete($sql);
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = $d['ID_RECETTE'];
+		}
+
+		return $r_i;
+	}
 }

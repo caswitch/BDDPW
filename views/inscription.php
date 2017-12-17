@@ -1,7 +1,16 @@
 <p>Les informations demandées dans le formulaire suivant sont nécessaires afin de poursuivre votre inscription.</p>
-<!--
- <script type="text/javascript">
-	 function validateForm() {
+<!--<form name="Form_i" onsubmit="return validateForm()" action="" method="post">-->
+<form action="" method="post">
+	<label>Pseudo : <input type="text" name="login"/></label><br/>
+	<label>Mot de passe : <input type="password" name="pwd"/></label><br/>
+	<label>Confirmation du mot de passe : <input type="password" name="pwd_v"/></label><br/>
+	<label>Adresse e-mail : <input type="email" name="email"/></label><br/>
+	<input type="submit" name="inscrismoi" value="M'inscrire" onclick="validateForm()"/>
+</form>
+
+
+<script type="text/javascript">
+	function validateForm() {
 		var login = document.forms["Form_i]["login"].value;
 		var pwd = document.forms["Form_i]["pwd"].value;
 		var pwd_v = document.forms["Form_i]["pwd_v"].value;
@@ -16,14 +25,5 @@
 			 return false;
 
 		}
-}
- </script>
--->
-<!--<form name="Form_i" onsubmit="return validateForm()" action="" method="post">-->
-<form action="" method="post">
-	<label>Pseudo : <input type="text" name="login"/></label><br/>
-	<label>Mot de passe : <input type="password" name="pwd"/></label><br/>
-	<label>Confirmation du mot de passe : <input type="password" name="pwd_v"/></label><br/>
-	<label>Adresse e-mail : <input type="email" name="email"/></label><br/>
-	<input type="submit" name="inscrismoi" value="M'inscrire"/>
-</form>
+	}
+</script>
