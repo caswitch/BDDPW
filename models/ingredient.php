@@ -109,7 +109,7 @@ class Ingredient extends Bdd {
 
 	// Renvoie le nombre d'ingrédients dans la base
 	// Ce nombre correspont au plus grand 
-	public static function nombreIngredient() {
+	public static function nombreIngredients() {
 		$bdd = parent::getInstance();
 		$req = $bdd->requete("SELECT count(*) FROM ingredient");
 		$nbr = $req->fetchColumn(0);

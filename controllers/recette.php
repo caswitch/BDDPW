@@ -20,9 +20,7 @@ class Controller_Recette {
 
 		// On affiche la liste de tous les ingrédients de la base
 	 	$array_ing = Ingredient::getAll();
-		foreach($array_ing as $test) {
-			var_dump($test->getIdIngredient());
-		}
+		$nbrIngredients = Ingredient::nombreIngredients();
 
 		// On vérifie les saisies de l'utilisateur
 		// avant la création de la recette.
@@ -119,12 +117,10 @@ class Controller_Recette {
 
 					// C'EST MAINTENANT QUE LES DONNÉES VONT ÊTRE 
 					// ENVOYÉES DANS LA BASE DE DONNÉES.
-					
 					// La recette sera illustrée par une image.
 					// Cette image sera celle renseignée par l'utilisateur
 					// ou par une image par défaut s'il n'en a pas renseignée.
 					// Illustration de l'utilisateur
-/*
 					if ($hasUrlM) {
 						$idMedia = Media::nextIdMedia();
 						// Avec légende
@@ -148,18 +144,18 @@ class Controller_Recette {
 
 					// On créé la recette.
 					Recette::creation($_POST['nomNR'], $_POST['descNR'], $_POST['diffNR'], $_POST['prixNR'], $_POST['nb_persNR'], $idUtilisateur, $idMedia);
- */
 					// On lie les ingrédients à la recette dans la 
 					// table RECETTE_INGREDIENT.
 					foreach ($checked_arr as $checked_ing) {
 						$idIngredient = $checked_ing;
 						var_dump($idIngredient);
-						//Recette_ingredient::creation($quantite_arr[$idIngredient], $idRecette, $idIngredient);
+						var_dump($quantite_arr[$idIngredient]);
+						Recette_ingredient::creation($quantite_arr[$idIngredient], $idRecette, $idIngredient);
 					}
 
 					// On lie les étapes à la recette.
 					// Nous ne mettons pas de média dans les étapes.
-/*					for ($i = 1; $i <= $nbrEtape; $i++) {
+					for ($i = 1; $i <= $nbrEtape; $i++) {
 						Etape::creation($i, $descrEtape_arr[$i], $dureeEtape_arr[$i], $idRecette, "");
 					
 					}
@@ -167,7 +163,6 @@ class Controller_Recette {
 					$home = 'Location: '.$BASEURL.'/index.php';
 					header($home);
 					exit();
- */
 				}
 			}
 		}

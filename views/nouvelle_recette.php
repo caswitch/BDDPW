@@ -103,22 +103,27 @@ Faite ressurgir le souvenir de la ratatouille de votre enfance !">
 		  <th>Quantité</th> 
 		  <th>Unité</th>
 	    </tr>
-	    <?php foreach ($array_ing as $ing) { ?>
+		<?php 
+			$i = 1;
+			foreach ($array_ing as $ing) { 
+		?>
 	      <tr>
 		    <td>
-			  <input type="checkbox" name="checkbox[<?php echo $ing->getIdIngredient()?>]" value="<?php echo $ing->getIdIngredient()?>">
+			  <input type="checkbox" name="checkbox[<?php echo $i?>]" value="<?php echo $i ?>">
 		    </td>
 		    <td>
 			  <?php echo $ing->getNom()?>
 		    </td>
 		    <td>
-			  <input type="number" class="form-control" name="quantite[<?php echo $ing->getIdIngredient()?>]"  min="0.001" placeholder=" " step=".001">
+			  <input type="number" class="form-control" name="quantite[<?php echo $i ?>]"  min="0.001" placeholder=" " step=".001">
 		    </td>
 		    <td>
 			  <?php echo $ing->getUnite() ?>
 		    </td>
 	    </tr>
-	    <?php } ?>	
+		<?php $i++;
+		} 
+		?>	
     </table>
   </div>
 
