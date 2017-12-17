@@ -201,57 +201,17 @@ class Controller_Recette {
 			}
 			else {
 				$idIngredient = Ingredient::getIdByNom($_POST['selectIng']);
-
-				if (empty($_POST['triepar'])) {
-					$array_id = Recette_ingredient::getIdRecetteByIdIngredient($idIngredient);
-				}
-				else {
-					$trie = $_POST['triepar'];
-					switch ($trie) {
-						case "1": // - Titre +
-							$orderBy = "nom";
-							$asc = "ASC";
-							break;
-						case "2": // + Titre -
-							$orderBy = "nom";
-							$asc = "DESC";
-							break;
-						case "3": // - Nombre de personnes +
-							$orderBy = "nb_pers";
-							$asc = "ASC";
-							break;
-						case "4": // + Nomde de personnes -
-							$orderBy = "nb_pers";
-							$asc = "DESC";
-							break;
-						case "5": // - Prix +
-							$orderBy = "prix";
-							$asc = "ASC";
-							break;
-						case "6": // + Prix -
-							$orderBy = "prix";
-							$asc = "DESC";
-							break;
-						case "7": // - Difficulté +
-							$orderBy = "difficulte";
-							$asc = "ASC";
-							break;
-						case "8": // + Difficulté -
-							$orderBy = "difficulte";
-							$asc = "DESC";
-							break;
-					}
-
-					$array_id = Recette_ingredient::getIdRecetteByIdIngTrie($idIngredient, $orderBy, $asc);
-				}
+				$array_id = Recette_ingredient::getIdRecetteByIdIngredient($idIngredient);
+				$array_rec = array();
+				//var_dump($array_rec[1]);
 
 				foreach ($array_id as $idRecette) {
 					$array_rec[] = Recette::getById($idRecette);
 				}
-
 				$afficheListe = true;
 			}
 		}
+		
 		// Affichage le formulaire de recherche
     	include 'views/recherche_par_un.php';
 		if ($afficheListe == true) {
@@ -261,6 +221,7 @@ class Controller_Recette {
 		$afficheListe = false;
 	}
 
+	//TODO: régime, nb_pers, prix, difficulté
 	public function rechercheParDesIngredients() {
 		$BASEURL = $this->context['BASEURL'];
 		$afficheListe = false;
@@ -289,7 +250,6 @@ class Controller_Recette {
 				foreach ($array_id as $idRecette) {
 					$array_rec[] = Recette::getById($idRecette);
 				}
-
 				$afficheListe = true;
 			}
 		}

@@ -17,7 +17,7 @@ class Regime extends Bdd {
 		$pIpR = (int) $pIpR;
 
 		if ($pIpR > 0) {
-			$this->id_Regime = $pIpR;
+			$this->id_regime = $pIpR;
 		}
 	}
 

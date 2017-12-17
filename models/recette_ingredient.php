@@ -149,4 +149,23 @@ class Recette_ingredient extends Bdd {
 
 		return $r_i;
 	}
+
+	public static function getIdRecetteByIdIngTrie($pIdIng, $pOrderBy, $pAsc) {
+		$r_i = array();
+
+		$bdd = parent::getInstance();
+		$sql = "SELECT id_recette FROM recette WHERE id_recette IN (SELECT id_recette FROM recette_ingredient WHERE id_ingredient=:idIng) ORDER BY ".$pOrderBy." ".$pAsc;
+		$req = $bdd->preparation($sql);
+		$req->bindparam(':idIng', $pIdIng);
+		//$req->bindparam(':OrderBy', $pOrderBy);
+		//$req->bindparam(':asc_desc', $pAsc);
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = $d['ID_RECETTE'];
+		}
+
+		return $r_i;
+	}
+
 }
