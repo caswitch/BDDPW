@@ -62,33 +62,63 @@ class Recette_ingredient extends Bdd {
 		return $req;
 	}
 
-	public static function getByRecette($pIdR) {
+	public static function getIngredientByIdRecette($pIdR) {
+		$r_i = array();
+
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM Regime WHERE id_recette=:idRe');
+		$req = $bdd->preparation('SELECT * FROM recette_ingredient WHERE id_recette=:idRe');
 		$req->bindparam(':idRe', $pIdR);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
-			$r = new Recette_ingredient($d['QUANTITE'], $d['ID_RECETTE'], $d['ID_INGREDIENT']);
-			return $r;
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = new Recette_ingredient($d['QUANTITE'], $d['ID_RECETTE'], $d['ID_INGREDIENT']);
 		}
-		else {
-			return null;
-		}
+
+		return $r_i;
 	}
 
-	public static function getByIngredient($pIdI) {
+	public static function getRecetteByIdIngredient($pIdI) {
+		$r_i = array();
+
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM Regime WHERE id_ingredient=:idIn');
+		$req = $bdd->preparation('SELECT id_recette FROM recette_ingredient WHERE id_ingredient=:idIn');
 		$req->bindparam(':idIn', $pIdI);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
-			$r = new Recette_ingredient($d['QUANTITE'], $d['ID_RECETTE'], $d['ID_INGREDIENT']);
-			return $r;
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = new Recette_ingredient($d['QUANTITE'], $d['ID_RECETTE'], $d['ID_INGREDIENT']);
 		}
-		else {
-			return null;
+
+		return $r_i;
+	}
+
+	public static function getIdIngredientByIdRecette($pIdR) {
+		$r_i = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM recette_ingredient WHERE id_recette=:idRe');
+		$req->bindparam(':idRe', $pIdR);
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = $d['ID_INGREDIENT'];
 		}
+
+		return $r_i;
+	}
+
+	public static function getIdRecetteByIdIngredient($pIdI) {
+		$r_i = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT id_recette FROM recette_ingredient WHERE id_ingredient=:idIn');
+		$req->bindparam(':idIn', $pIdI);
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = $d['ID_RECETTE'];
+		}
+
+		return $r_i;
 	}
 }

@@ -121,7 +121,9 @@ Faite ressurgir le souvenir de la ratatouille de votre enfance !">
 			  <?php echo $ing->getUnite() ?>
 		    </td>
 	    </tr>
-        <?php $i++; } ?>	
+		<?php $i++;
+		} 
+		?>	
     </table>
   </div>
 

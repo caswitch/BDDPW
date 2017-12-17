@@ -185,5 +185,39 @@ class Controller_Recette {
 		// Affichage de la recette
     	include 'views/une_recette.php';
 	}
+
+	public function rechercheParIngredient() {
+		$BASEURL = $this->context['BASEURL'];
+		$afficheListe = false;
+
+		// On affiche la liste de tous les ingrédients de la base
+	 	$array_ing = Ingredient::getAll();
+
+		if (isset($_POST["recherche"])) {
+			if (empty($_POST['selectIng1'])) {
+				echo '<script language="javascript">';
+				echo 'alert("La recherche par ingrédient nécessite un ingrédient sélectionné.")';
+				echo '</script>';
+			}
+			else {
+				$idIngredient = Ingredient::getIdByNom($_POST['selectIng1']);
+				$array_id = Recette_ingredient::getIdRecetteByIdIngredient($idIngredient);
+				$array_rec = array();
+				//var_dump($array_rec[1]);
+
+				foreach ($array_id as $idRecette) {
+					$array_rec[] = Recette::getById($idRecette);
+				}
+				$afficheListe = true;
+			}
+		}
+		
+		// Affichage le formulaire de recherche
+    	include 'views/recherche.php';
+		if ($afficheListe == true) {
+			// Affichage de la liste de toutes les recettes
+			include 'views/liste_des_recettes.php';
+		}
+	}
 }
 

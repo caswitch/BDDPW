@@ -155,6 +155,20 @@ class Ingredient extends Bdd {
 		}
 	}
 
+	public static function getIdByNom($pNom) {
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT id_ingredient FROM ingredient WHERE nom=:nomI');
+		$req->bindparam(':nomI', $pNom);
+		$req->execute();
+
+		if ($ing = $req->fetch(PDO::FETCH_ASSOC)) {
+			return $ing['ID_INGREDIENT'];
+		}
+		else {
+			return null;
+		}
+	}
+
 	public static function getAll() {
 		$ingredients = array();
 

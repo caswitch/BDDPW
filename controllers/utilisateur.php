@@ -24,7 +24,10 @@ class Controller_Utilisateur {
 				echo '</script>';
 			}
 			else {
-				Utilisateur::inscription($_POST['login'], $_POST['email'], $_POST['pwd']);
+				$password = $_POST['pwd'];
+				//$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+				Utilisateur::inscription($_POST['login'], $_POST['email'], $password);
+				//Utilisateur::inscription($_POST['login'], $_POST['email'], $hashed_password);
 				$_SESSION['message'] = 'Bienvenue sur ratatouille ! 😊'; 
 				$home = 'Location: '.$BASEURL.'/index.php';
 				header($home);
@@ -49,14 +52,30 @@ class Controller_Utilisateur {
 					echo 'alert("Veuillez renseigner votre pseudo ou mail et votre mot de passe pour vous connecter.")';
 					echo '</script>';
 				}
-				else if (!empty($_POST['login'])) {
-					$u = Utilisateur::connexion($_POST['login'], "", $_POST['pwd']);
+				else if (!empty($_POST['login']) || !empty($POST['email'])) {
+					//$password = $_POST['pwd'];
+					//$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+					//if (password_verify($password, $hashed_password)) {
+						$utilisateur = Utilisateur::connexion($_POST['login'], "", $_POST['pwd']);
+					//}
+					//else {
+					//	echo '<script language="javascript">';
+					//	echo 'alert("Le mot de passe ne correspont pas.")';
+					//	echo '</script>';
+					//}	
 				}
 				else if (!empty($_POST['email'])) {
-					$u = Utilisateur::connexion("", $_POST['email'], $_POST['pwd']);
+					//if (password_verify($password, $hashed_password)) {
+						$utilisateur = Utilisateur::connexion("", $_POST['email'], $_POST['pwd']);
+					//}
+					//else {
+					//	echo '<script language="javascript">';
+					//	echo 'alert("Le mot de passe ne correspont pas.")';
+					//	echo '</script>';
+					//}
 				}
 
-				if (!is_null($u)) {
+				if (!is_null($utilisateur)) {
 					$_SESSION['message'] = 'En cuisine ! 😋'; 
 
 					$home = 'Location: '.$BASEURL.'/index.php';

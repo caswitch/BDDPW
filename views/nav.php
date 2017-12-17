@@ -25,6 +25,7 @@
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 					<li><a href="<?php echo $BASEURL ?>/index.php/recette/creation">Nouvelle recette</a></li>
 					<li><a href="<?php echo $BASEURL ?>/index.php/recette/listeRecettes">Liste des recettes</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/recette/rechercheParIngredient">Recherche par ingrédient</a></li>
 				</ul>
 		</li>
 

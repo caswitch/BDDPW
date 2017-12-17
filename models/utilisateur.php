@@ -132,5 +132,11 @@ class Utilisateur extends Bdd {
 		unset($_SESSION['login']);
 		unset($_SESSION['connect']);
 	}
+
+	//TODO
+	public static function getMdpByLoginOrEmail() {
+		unset($_SESSION['login']);
+		unset($_SESSION['connect']);
+	}
 }
 ?>

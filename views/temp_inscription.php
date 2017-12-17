@@ -24,6 +24,6 @@
 	<label>Pseudo : <input type="text" name="login"/></label><br/>
 	<label>Mot de passe : <input type="password" name="pwd"/></label><br/>
 	<label>Confirmation du mot de passe : <input type="password" name="pwd_v"/></label><br/>
-	<label>Adresse e-mail : <input type="email" name="email"/></label><br/>
+	<label>Adresse e-mail : <input type="text" name="email"/></label><br/>
 	<input type="submit" name="inscrismoi" value="M'inscrire"/>
 </form>

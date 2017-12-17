@@ -93,26 +93,6 @@ $content = ob_get_clean();
 
 	<title> Ratatouille </title>
 
-	<style type="text/css">
-      body{margin:40px;}
-      .btn-circle {
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        padding: 3px 0;
-        font-size: 11px;
-        line-height: 1.428571429;
-        border-radius: 7px;
-      }
-      .btn-circle.btn-lg {
-        width: 25px;
-        height: 25px;
-        padding: 6px 6px;
-        font-size: 11px;
-        line-height: 1.33;
-        border-radius: 12px;
-      }
-  </style>
     <!-- Custom styles for this template -->
     <link href="<?php echo $BASEURL ?>/css/shop-homepage.css" rel="stylesheet">
 
@@ -154,6 +134,9 @@ $content = ob_get_clean();
 		<?php } ?>
 
 	  <br/>
+	  <br/>
+	  <br/>
+	  <br/>
       <div class="row justify-content-end-center">
         <div class="col-md-8 col-md-offset-2">
     <!-- Carousel
@@ -187,10 +170,9 @@ $content = ob_get_clean();
 		</div>
 		</div>
       </div>
-	  <br/>
     </div>
-	  <br/>
-	  <br/>
+    <br/>
+    <br/>
 
 
 	<?php
@@ -211,6 +193,7 @@ $content = ob_get_clean();
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+	<!--
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
@@ -219,7 +202,7 @@ $content = ob_get_clean();
 
 	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
-
+	-->
 
 </body>
 </html>
