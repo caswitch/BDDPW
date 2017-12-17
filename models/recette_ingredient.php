@@ -68,7 +68,7 @@ class Recette_ingredient extends Bdd {
 		$req->bindparam(':idRe', $pIdR);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {}
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$r = new Recette_ingredient($d['QUANTITE'], $d['ID_RECETTE'], $d['ID_INGREDIENT']);
 			return $r;
 		}
@@ -83,7 +83,7 @@ class Recette_ingredient extends Bdd {
 		$req->bindparam(':idIn', $pIdI);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {}
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$r = new Recette_ingredient($d['QUANTITE'], $d['ID_RECETTE'], $d['ID_INGREDIENT']);
 			return $r;
 		}

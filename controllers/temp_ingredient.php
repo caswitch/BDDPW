@@ -16,7 +16,8 @@ class Controller_Ingredient {
 		$BASEURL = $this->context['BASEURL'];
 	 	$array_ing = Ingredient::getAll();
 
-		include 'views/nouvelle_recette2.php';
+		// Affichage de la liste des ingrédients
+ 		include 'views/nouvelle_recette2.php';
 	}
 
 	public function ingredientById($pId) {

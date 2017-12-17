@@ -153,7 +153,7 @@ $content = ob_get_clean();
 			</div>
 		<?php } ?>
 
-
+	  <br/>
       <div class="row justify-content-end-center">
         <div class="col-md-8 col-md-offset-2">
     <!-- Carousel
@@ -187,12 +187,17 @@ $content = ob_get_clean();
 		</div>
 		</div>
       </div>
+	  <br/>
     </div>
+	  <br/>
+	  <br/>
 
 
 	<?php
 	 include 'views/footer.php';
 	?>
+
+
 	 <script
 	   src="https://code.jquery.com/jquery-3.2.1.min.js"
 		     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

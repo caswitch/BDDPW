@@ -4,6 +4,8 @@ require_once 'models/recette.php';
 require_once 'models/utilisateur.php';
 require_once 'models/media.php';
 require_once 'models/ingredient.php';
+require_once 'models/recette_ingredient.php';
+require_once 'models/etape.php';
 require_once 'controllers/ingredient.php';
 
 class Controller_Recette {
@@ -16,13 +18,19 @@ class Controller_Recette {
 	public function creation() {
 		$BASEURL = $this->context['BASEURL'];
 
+		// On affiche la liste de tous les ingrédients de la base
+	 	$array_ing = Ingredient::getAll();
+		foreach($array_ing as $test) {
+			var_dump($test->getIdIngredient());
+		}
+
 		// On vérifie les saisies de l'utilisateur
-		// avant de passer à l'étape 2 de la création de recette.
-		// Le media et sa légendes sont optionnels.
+		// avant la création de la recette.
+		//
+		// Si l'utilisateur appuie sur le bouton qui valide le formulaire, ...
 		if (isset($_POST["cuisineca"])) {
 			// Si les champs obligatoires ne sont pas remplis,
-			// une alerte apparait et le formulaire doit être
-			// remplis à nouveau.
+			// une alerte apparait.
 			if (empty($_POST['nomNR']) || empty($_POST['descNR']) || 
 				empty($_POST['diffNR']) || empty($_POST['prixNR']) ||
 				empty($_POST['nb_persNR'])) {
@@ -31,127 +39,140 @@ class Controller_Recette {
 				echo '</script>';
 			
 			}
+			// Si les champs obligatoires sont remplis, ...
 			else {
-				// Si les champs obligatoires sont remplis,
-				// on initialise $_SESSION['etapeCR'] pour 
-				// "etape de la création de recette" à 1.
-				// Ceci va nous permettre de présenter à l'utilisateur le 
-				// formulaire adéquate à son étape de création de recette.
-				$_SESSION['etapeCR'] = 1;
-
 				// On vérifie si les champs optionnels on été remplis.
-				// S'ils ont été remplis ou partiellement remplis, 
-				// un média (de type image par défaut) est créé.
-				// Ainsi, la recette sera illlustrée par une image
-				// (avec ou non une légende).
-				if (!empty($_POST['urlM']) && !empty($_POST['legM'])) {
-					$idM = Media::nextIdMedia();
-					$media = Media::creation("image", $_POST['urlM'], $_POST['legM']);
-				}
-				else if (!empty($_POST['urlM']) && empty($_POST['legM'])) {
-					$idM = Media::nextIdMedia();
-					$media = Media::creation("image", $_POST['urlM'], "");
-				}
-				// Si les champs optionnels n'ont pas été remplis,
-				// une image par défaut illustrera la recette.
-				else {
-					// L'id de l'image par défaut est 35.
-					$idM = "35";
-				}
-				// On vérifie si l'utilisateur qui créé la recette 
-				// est connecté ou non.
-				// Si l'utilisateur est connecté, on utilise son id.
-				if (Utilisateur::est_connecte()) {
-					$idU = Utilisateur::getIdUtilisateur();
-				}
-				// Si l'utilisateur n'est pas connecté,
-				// on utilise l'id de l'utilisateur par défaut.
-				else {
-					// L'id de l'utilisateur par défaut est 1.
-					$idU = "1";
-				}
+				$hasUrlM = false;
+				$hasLegM = false;
 
-				// On créé la recette.
-				Recette::creation($_POST['nomNR'], $_POST['descNR'], $_POST['diffNR'], $_POST['prixNR'], $_POST['nb_persNR'], $idU, $idM);
-
-				// Maintenant que la recette est créé,
-				// l'utilisateur devra remplir le formulaire de l'étape 2 de 
-				// création de recette.
-				$_SESSION['etapeCR'] = 2;
-			}
-		}
-
-		// On permet à l'utilisateur d'obtenir le formulaire adéquate 
-		// aux étape de création de recette.
-		//
-		// L'utilisateur garde le formulaire de l'étape 1 de création 
-		// de recette (même s'il clique qur "suivant" si :
-		// - $_SESSION['etapeCR'] n'est pas initialisé (c'est que 
-		// l'utiisateur vient d'arriver sur le formulaire 1),
-		// - $_SESSION['etapeCR] vaut 1 (c'est que le formulaire 1 n'a pas 
-		// été correcetement remplie).
-		if (!isset($_SESSION['etapeCR']) || $_SESSION['etapeCR'] == 1) {
-			// Affichage du formulaire de création d'une recette
-			include 'views/nouvelle_recette.php';
-		}
-		// L'utilisateur obtient le formulaire de la page 2 si 
-		// $_SESSION['etapeCR'] vaut 2 : le formulaire de l'étape 1 a été 
-		// correctement remplie.
-		else if ($_SESSION['etapeCR'] == 2) {
-			// Le formulaire de l'étape 2 apparaît aux yeux de l'utilisateur.
-			// C'est le formulaire qui permet de sélectionner les ingrédients 
-			// pour la recette.
-			$listIng = new Controller_Ingredient();
-			$listIng->selectIngredients();
-
-			// On vérifie qu'au moins un ingrédient a été coché
-			// avant de passer à l'étape 3 de création de recette.
-			if (isset($_POST["auxetapes"])) {
+				// Si une url d'une image a été renseignée,
+				// on vérifie si la légende de l'image a été renseignée.
+				if (!empty($_POST['urlM'])) {
+					$hasUrlM = true;
+				   	if (!empty($_POST['legM'])) {
+						$hasLegM = true;
+					}
+				}
+				// On vérifie qu'au moins un ingrédient a été coché.
 				// Si aucun ingrédient n'a été sélectionné,
-				// une alerte apparait et le formulaire de cette étape
-				// doit être remplis à nouveau.
+				// une alerte apparait.
 				if (!isset($_POST['checkbox'])) {
 					echo '<script language="javascript">';
 					echo 'alert("Ta recette doit contenir au moins un ingrédient. 😓")';
 					echo '</script>';
-
 				}
+				// Si au moins un ingrédient a été sélectionné, ...
 				else {
-					// Si au moins un ingrédient a été sélectionné, ...
-					$nbrIng = Ingredient::nombreIngredient();
-
 					// On stocke dans des tableaux :
 					// - les ingrédients qui on été cochés,
-					// - les quantités remplies,
-					// - les unités renseignées.
+					// - les quantités de ces ingrédients.
 					$checked_arr  = $_POST['checkbox'];
 					$quantite_arr = $_POST['quantite'];
-					$unite_arr    = $_POST['unite'];
+
 					// On vérifie que pour chaque ingrédient coché, 
-					// la quantité et l'unité ont été renseignées.
+					// la quantité a été renseignée.
+					// Les quantités renseignées sans que l'ingrédient 
+					// n'ait été coché ne sont pas prises en compte.
 					foreach ($checked_arr as $checked_ing) {
-						$idI = $checked_ing;
-						// Si la quantité ou l'unité d'un ingrédient 
-						// sélectionné n'est pas renseigné,
-						// une alerte apparait et le formulaire de cette étape
-						// doit être remplis à nouveau.
-						if ($quantite_arr[$idI] === "" || $unite_arr[$idI] === "") {
+						$idIngredient = $checked_ing;
+						// Si la quantité de l'ingrédient n'est pas 
+						// renseignée, une alerte apparait.
+						if ($quantite_arr[$idIngredient] === "") {
 							echo '<script language="javascript">';
-							echo 'alert("Veuillez renseigner la quantité et l\'unité pour chaque ingrédient sélectionné.")';
+							echo 'alert("Veuillez renseigner la quantité pour chaque ingrédient sélectionné. 😓")';
 							echo '</script>';
 						}
-						else {
-							// Place les ingrédients dans la table RECETTE_INGREDIENT.
-
-						}
-
 					}
-					var_dump($quantite_arr[1]);
-					var_dump($unite_arr[1]);
-					exit(1);
+				}
+				// On vérifie les étapes renseignées nécessaires à la 
+				// création de la recette.
+				// Si aucune étape n'a été correctement renseignée 
+				// (durée et description), une alerte apparait.
+				$dureeEtape_arr = $_POST['dureeEtape'];
+				$descrEtape_arr = $_POST['descrEtape'];
+
+				if (empty($dureeEtape_arr[1]) || empty($descrEtape_arr[1])) {
+					echo '<script language="javascript">';
+					echo 'alert("Renseigne au moins une étape nécessaire à la création de ta recette. ")';
+					echo '</script>';
+				}
+				// Si au moins une étape a été correctement renseignée, ...
+				else {
+					$nbrEtape = count($dureeEtape_arr);
+					// Si la dernière étape n'est pas remplie, 
+					// elle ne devra pas être prise en compte.
+					if (empty($dureeEtape_arr[$nbrEtape]) || empty($descrEtape_arr[$nbrEtape])) {
+						$nbrEtape--;
+					}
+					// Enfin, on vérifie si l'utilisateur qui créé la recette 
+					// est connecté ou non.
+					// Si l'utilisateur est connecté, on utilise son id.
+					if (Utilisateur::est_connecte()) {
+						$idUtilisateur = Utilisateur::getIdUtilisateur();
+					}
+					// Si l'utilisateur n'est pas connecté,
+					// on utilise l'id de l'utilisateur par défaut.
+					else {
+						// L'id de l'utilisateur par défaut est 1.
+						$idUtilisateur = "1";
+					}
+
+					// C'EST MAINTENANT QUE LES DONNÉES VONT ÊTRE 
+					// ENVOYÉES DANS LA BASE DE DONNÉES.
+					
+					// La recette sera illustrée par une image.
+					// Cette image sera celle renseignée par l'utilisateur
+					// ou par une image par défaut s'il n'en a pas renseignée.
+					// Illustration de l'utilisateur
+/*
+					if ($hasUrlM) {
+						$idMedia = Media::nextIdMedia();
+						// Avec légende
+						if ($hasLegM) {
+							Media::creation("image", $_POST['urlM'], $_POST['legM']);
+						}
+						// Sans légende
+						else {
+							Media::creation("image", $_POST['urlM'], "");
+						}
+					}
+					// Illustration par défaut
+					else {
+						// L'id de l'image par défaut est 35.
+						// On ne créé pas cette image car elle existe 
+						// déjà dans la base de données.
+						$idMedia = "35";
+					}
+
+					$idRecette = Recette::nextIdRecette();
+
+					// On créé la recette.
+					Recette::creation($_POST['nomNR'], $_POST['descNR'], $_POST['diffNR'], $_POST['prixNR'], $_POST['nb_persNR'], $idUtilisateur, $idMedia);
+ */
+					// On lie les ingrédients à la recette dans la 
+					// table RECETTE_INGREDIENT.
+					foreach ($checked_arr as $checked_ing) {
+						$idIngredient = $checked_ing;
+						var_dump($idIngredient);
+						//Recette_ingredient::creation($quantite_arr[$idIngredient], $idRecette, $idIngredient);
+					}
+
+					// On lie les étapes à la recette.
+					// Nous ne mettons pas de média dans les étapes.
+/*					for ($i = 1; $i <= $nbrEtape; $i++) {
+						Etape::creation($i, $descrEtape_arr[$i], $dureeEtape_arr[$i], $idRecette, "");
+					
+					}
+					$_SESSION['message'] = 'Merci pour cette délicieuse nouvelle recette! 😊'; 
+					$home = 'Location: '.$BASEURL.'/index.php';
+					header($home);
+					exit();
+ */
 				}
 			}
 		}
+		// Affichage du formulaire de création de recette
+		include 'views/nouvelle_recette.php';
 	}
 
 	public function listeRecettes() {

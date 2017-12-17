@@ -5,16 +5,15 @@ require_once(dirname(__FILE__).'/bdd.php');
 class Etape extends Bdd {
 	private $id_etape;
 	private $numero;
-	private $descr;
+	private $description;
 	private $duree;
 	private $id_recette;
 	private $id_media;
-	
-	public function __construct($pId_etape, $pNumero, $pDescription, $pDuree, $pId_recette, $pId_media) {
 
-		$this->id_etape    = $pId_etape; 
+	public function __construct($pId_etape, $pNumero, $pDescription, $pDuree, $pId_recette, $pId_media) {
+		$this->id_etape    = $pId_etape;
 		$this->numero      = $pNumero;
-		$this->descr       = $pDescription;
+		$this->description = $pDescription;
 		$this->duree       = $pDuree;
 		$this->id_recette  = $pId_recette;
 		$this->id_media    = $pId_media;
@@ -43,11 +42,11 @@ class Etape extends Bdd {
 	}
 
 	public function setDescription($pDescription) {
-		$this->descr = $pDescription;
+		$this->description = $pDescription;
 	}
 
 	public function getDescription() {
-		return $this->descr;
+		return $this->description;
 	}
 
 	public function setDuree($pDuree) {
@@ -58,16 +57,16 @@ class Etape extends Bdd {
 		return $this->duree;
 	}
 
-	public function setIdRecette($pIdRecette) {
-		$this->id_recette = $pIdRecette;
+	public function setIdRecette($pIdR) {
+		$this->id_recette = $pIdR;
 	}
 
 	public function getIdRecette() {
 		return $this->id_recette;
 	}
 
-	public function setIdMedia($pIdMedia) {
-		$this->id_media = $pIdMedia;
+	public function setIdMedia($pIdM) {
+		$this->id_media = $pIdM;
 	}
 
 	public function getIdMedia() {
@@ -88,20 +87,19 @@ class Etape extends Bdd {
 		return $id;
 	}
 
-	public static function creation($pNumero, $pDescr, $pDuree, $pId_recette, $pId_media) {
-
-		$idE = self::nextIdEtape();
+	public static function creation($pNumero, $pDescription, $pDuree, $pId_recette, $pId_media) {
+		$idEt = self::nextIdEtape();
 
 		$bdd = parent::getInstance();
 
-		$req = $bdd->preparation("INSERT INTO etape 
-			VALUES (:idEt, :numero, :descr, :duree, :id_recette, :id_media)");
-		$req->bindparam(":idEt", $idE);
+		$req = $bdd->preparation("INSERT INTO etape VALUES (:idEt, :numero, :descr, :duree, :idRe, :idMe)");
+
+		$req->bindparam(":idEt", $idEt);
 		$req->bindparam(":numero", $pNumero);
-		$req->bindparam(":descr", $pDescr);
+		$req->bindparam(":descr", $pDescription);
 		$req->bindparam(":duree", $pDuree);
-		$req->bindparam(":id_recette", $pId_recette);
-		$req->bindparam(":id_media", $pId_media);
+		$req->bindparam(":idRe", $pId_recette);
+		$req->bindparam(":idMe", $pId_media);
 
 		$req->execute();
 
@@ -114,12 +112,43 @@ class Etape extends Bdd {
 		$req->bindparam(':idEt', $pIdE);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {}
-			$et = new Etape($d['ID_ETAPE'], $d['NUMERO'], $d['DESCRIPTION'], $d['DUREE'], $d['ID_RECETTE'], $d['ID_MEDIA']);
-			return $et;
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$etape = new Etape($d['ID_ETAPE'], $d['NUMERO'], $d['DESCRIPTION'], $d['DUREE'], $d['ID_RECETTE'], $d['ID_MEDIA']);
+			return $etape;
 		}
 		else {
 			return null;
 		}
 	}
+
+	public static function getByMedia($pIdM) {
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM etape WHERE id_media=:idMe');
+		$req->bindparam(':idMe', $pIdM);
+		$req->execute();
+
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$etape = new Etape($d['ID_ETAPE'], $d['NUMERO'], $d['DESCRIPTION'], $d['DUREE'], $d['ID_RECETTE'], $d['ID_MEDIA']);
+			return $etape;
+		}
+		else {
+			return null;
+		}
+	}
+
+	public static function getByRecette($pIdR) {
+		$etapes = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM recette where id_recette=:idRe');
+		$req->bindparam(':idRe', $pIdR);
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$etapes[] = new Etape($d['ID_ETAPE'], $d['NUMERO'], $d['DESCRIPTION'], $d['DUREE'], $d['ID_RECETTE'], $d['ID_MEDIA']);
+		}
+
+		return $etapes;	
+	}
 }
+
