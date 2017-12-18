@@ -15,14 +15,22 @@ class Controller_Planning {
 
 	public function creation() {
 		$BASEURL = $this->context['BASEURL'];
+		
+		$user = Utilisateur::getBySession();
+		
+		if (!$user){
+			echo "<h1>403</h1>";
+			echo "<h2>Connectes-toi petit rat</h2>";
+			$_SESSION['message'] = 'Il faut te connecter pour ça petit rat ! 😋'; 
+			$home = 'Location: '.$BASEURL.'/index.php';
+			header($home);
+			exit();
+		}
 
 		var_dump($_POST);
 
-		$user = Utilisateur::getBySession();
-		$recettes = Recette::getAll();
-
-
 		if (isset($_POST["newplanning"])) {
+			$user = Utilisateur::getBySession();
 
 			$planning = new Planning(
 				$_POST["date"], 
@@ -37,6 +45,8 @@ class Controller_Planning {
 			$planning->addRecette($_POST["recette"]);
 		}
 
+		$recettes = Recette::getAll();
+ 		
  		include 'views/creation_planning.php';
 	}
 	public function listePlannings() {

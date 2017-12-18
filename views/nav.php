@@ -15,6 +15,7 @@
 			<span class="sr-only">(current)</span>
 		  </a>
 		</li>
+		<?php if (Utilisateur::est_connecte()) { ?> 
 		<li class="dropdown">
 		  <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="">Mon espace
 			<span class="caret"></span>
@@ -24,12 +25,15 @@
 					<li><a href="<?php echo $BASEURL ?>/index.php/planning/listePlannings">Liste des plannings</a></li>
 				</ul>
 		</li>
+		<?php } ?>
 		<li class="dropdown">
 		  <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="">Recettes
 			<span class="caret"></span>
 		  </a>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<?php if (Utilisateur::est_connecte()) { ?> 
 					<li><a href="<?php echo $BASEURL ?>/index.php/recette/creation">Nouvelle recette</a></li>
+					<?php } ?>
 					<li><a href="<?php echo $BASEURL ?>/index.php/recette/listeRecettes">Liste des recettes</a></li>
 					<li><a href="<?php echo $BASEURL ?>/index.php/recette/rechercheParUnIngredient">Recherche par un ingrédient</a></li>
 					<li><a href="<?php echo $BASEURL ?>/index.php/recette/rechercheParDesIngredients">Recherche par plusieurs ingrédients</a></li>
