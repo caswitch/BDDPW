@@ -80,11 +80,13 @@ class Utilisateur extends Bdd {
 		return $id;
 	}
 
-	public static function inscription($pLogin, $pEmail, $pPwd) {
+	public static function inscription($pLogin, $pEmail, $pMdp) {
 		$idU = self::nextIdUtilisateur();
 		$emailV = true;
 
 		$bdd = parent::getInstance();
+
+		$hash = password_hash($pMdp, PASSWORD_DEFAULT);
 
 		$req = $bdd->preparation("INSERT INTO utilisateur 
 			VALUES (:idU, :login, :email, :email_v, :mdp)");
@@ -93,23 +95,34 @@ class Utilisateur extends Bdd {
 		$req->bindparam(":login",$pLogin);
 		$req->bindparam(":email",$pEmail);
 		$req->bindparam(":email_v",$emailV);
-		$req->bindparam(":mdp",$pPwd);
+		$req->bindparam(":mdp",$hash);
 
 		$req->execute();
 
 		return $req;
-    }
+	}
 
 	public static function connexion($pLogin, $pEmail, $pMdp) {
 		// On regarde si l'utilisateur existe dans la base de données
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM utilisateur WHERE login = :login and mdp = :mdp or email = :email and mdp = :mdp');
-		$req->bindparam(':login', $pLogin);
-		$req->bindparam(':email', $pEmail);
-		$req->bindparam(':mdp', $pMdp);
-		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+		$reqHash = $bdd->preparation("SELECT mdp FROM utilisateur WHERE login = :login or email = :email");
+		$reqHash->bindparam(':login', $pLogin);
+		$reqHash->bindparam(':email', $pEmail);
+		$reqHash->execute();
+
+		$bddHash = $reqHash->fetchColumn(0);
+
+		if (password_verify($pMdp, $bddHash)) {
+			if (password_needs_rehash($bddHash, PASSWORD_DEFAULT)) {
+				// Recalculate a new password_hash() and overwrite the one we stored previously
+			}
+			$req = $bdd->preparation('SELECT * FROM utilisateur WHERE login = :login or email = :email');
+			$req->bindparam(':login', $pLogin);
+			$req->bindparam(':email', $pEmail);
+			$req->execute();
+			$d = $req->fetch(PDO::FETCH_ASSOC);
+
 			$_SESSION['login'] = $d['ID_UTILISATEUR'];
 			$_SESSION['connect'] = true;
 			$user = new Utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_VERIFIE'], $d['MDP']);
