@@ -112,8 +112,9 @@ class Recette extends Bdd {
 
 		$bdd = parent::getInstance();
 
-		$req = $bdd->preparation("INSERT INTO recette VALUES (:idR, :nom, :descr, :diff, :prix, :nb_pers, :idU, :idM)");
 
+
+		$req = $bdd->preparation("INSERT INTO recette VALUES (:idR, :nom, :descr, :diff, :prix, :nb_pers, :idU, :idM)");
 		$req->bindparam(":idR", $idR);
 		$req->bindparam(":nom", $pNom);
 		$req->bindparam(":descr", $pDescription);
@@ -129,6 +130,9 @@ class Recette extends Bdd {
 	}
 
 	public static function getById($pIdR) {
+		$ut = Utilisateur::getIdUtilisateur();
+		var_dump($ut);
+
 		$bdd = parent::getInstance();
 		$req = $bdd->preparation('SELECT * FROM recette WHERE id_recette=:idR');
 		$req->bindparam(':idR', $pIdR);
