@@ -19,7 +19,7 @@ class Recette_ingredient extends Bdd {
 		$this->Quantite = $pQuantite;
 	}
 
-	public function getQuantite($pIdR, $pIdI) {
+	public static function getQuantite($pIdR, $pIdI) {
 		$bdd = parent::getInstance();
 
 		$req = $bdd->preparation('SELECT quantite FROM recette_ingredient WHERE id_recette=:idRec and id_ingredient=:idIng');

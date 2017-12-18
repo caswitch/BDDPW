@@ -46,7 +46,7 @@
 	    <tr>
 		  <td><strong><?php echo $ing->getNom()?></strong></td>
 	    </tr>
-	  <?php } ?>	
+	  <?php } ?>
 	</table>
   </div>
   <div class="col-md-1">
@@ -75,11 +75,14 @@
   </div>
   <div class="col-md-6">
 	<ol>
-	  <?php foreach ($etapes as $et) {?>
+		<?php
+
+		?>
+	  <?php foreach ($etapes as $et) { ?>
 		<li>
-		  <?php echo $et->getDescription()?>
+		  <?php echo $et->getDescription(); ?>
 		  <br/>
-		  <?php echo $et->getDuree()?> minutes
+		  <?php echo $et->getDuree(); ?> minutes
 		</li>
 	  <?php }?>
 	</ol>

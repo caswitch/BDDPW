@@ -198,6 +198,7 @@ class Controller_Recette {
 
 		foreach ($ingredients as $ing) {
 			$idIngredient = $ing->getIdIngredient();
+			
 			$quantites[] = Recette_ingredient::getQuantite($idRecette, $idIngredient);
 		}
 		$etapes = Etape::getByRecette($pIdRecette);
