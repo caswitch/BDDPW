@@ -165,7 +165,7 @@ class Controller_Recette {
 						Etape::creation($i, $descrEtape_arr[$i], $dureeEtape_arr[$i], $idRecette, "");
 					
 					}
-					$_SESSION['message'] = 'Merci pour cette délicieuse nouvelle recette! 😊'; 
+					$_SESSION['message'] = 'Merci pour cette délicieuse nouvelle recette ! 😊'; 
 					$home = 'Location: '.$BASEURL.'/index.php';
 					header($home);
 					exit();

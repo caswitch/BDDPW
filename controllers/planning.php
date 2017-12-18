@@ -4,6 +4,7 @@ require_once 'models/planning.php';
 require_once 'models/menu.php';
 require_once 'models/menu_planning.php';
 require_once 'models/recette.php';
+require_once 'models/recette_menu.php';
 require_once 'models/utilisateur.php';
 
 class Controller_Planning {
@@ -26,32 +27,71 @@ class Controller_Planning {
 			header($home);
 			exit();
 		}
-
-		var_dump($_POST);
-
 		if (isset($_POST["newplanning"])) {
-			$user = Utilisateur::getBySession();
 
-			$planning = new Planning(
-				$_POST["date"], 
-				$user->getIdUtilisateur()
-			);
- 			
- 			$menu = new Menu(
- 				$_POST["date"],
- 				$_POST["type"]
- 			);
+			//var_dump($_POST['date']); //0123-02-01 RRRR-MON-DD
+			$array_rec = $_POST['recette'];
+			$array_typ = $_POST['type'];
 
-			$planning->addRecette($_POST["recette"]);
+			$idRecettes = array();
+			$types = array();
+
+			foreach ($array_typ as $type) {
+				if (!empty($type)) {
+					$types[] = $type;
+				}
+			}
+
+			foreach ($array_rec as $idRecette) {
+				if (!empty($idRecette)) {
+					$idRecettes[] = $idRecette;
+				}
+			}
+
+ 			$planning = new Planning($_POST["date"], $user->getIdUtilisateur());
+			$planning->inject();
+			//var_dump($planning->inject());
+
+			$idPlanning = $planning->getIdPlanning();
+
+			$nbrMenu = count($idRecettes);
+			
+			$menus = array();
+			$idsMenu = array();
+			for ($i = 0; $i < $nbrMenu; $i++) {
+				var_dump($types[$i]);
+				$menus[$i] = new Menu($_POST["date"], $types[$i]);
+				$menus[$i]->inject();
+
+				$idsMenu[$i] = $menus[$i]->getIdMenu();
+				
+				$recette_menu = new Recette_menu($idsMenu[$i], $idRecettes[$i]);
+				$recette_menu->inject();
+
+				$menu_plannning = new Menu_planning($idsMenu[$i], $idPlanning);
+				$menu_plannning->inject();
+			}
+
+			$_SESSION['message'] = 'Votre planning a été créé. 😊'; 
+			$home = 'Location: '.$BASEURL.'/index.php';
+			header($home);
+			exit();
+			//$planning->addRecette($_POST["recette"]);
 		}
 
 		$recettes = Recette::getAll();
  		
  		include 'views/creation_planning.php';
 	}
-	public function listePlannings() {
+	public function listeMesPlannings() {
 		$BASEURL = $this->context['BASEURL'];
 
-		include 'views/liste_des_plannings.php';
+		$user = Utilisateur::getBySession();
+		$idUtilisateur = $user->getIdUtilisateur();
+			
+		$array_mes_plannings = Planning::getByUtilisateur($idUtilisateur);
+
+
+		include 'views/recherche_plannings.php';
 	}
 }

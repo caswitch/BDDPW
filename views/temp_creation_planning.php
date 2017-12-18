@@ -46,7 +46,7 @@
 	}
 
 	function ajoutEtape(i) {
-		var BIGSRC = "<div class='col-md-4'><select title='Recette' id='recette[##_N_##]' name='recette[##_N_##]' class='form-control selectpicker' data-live-search='true'><?php foreach ($recettes as $rec) {printf('<option value=%d>%s</option>', $rec->getIdRecette(), $rec->getNom());}?></select></div><div class='col-md-3'><select title='Type' id='type[##_N_##]' name='type[##_N_##]' class='form-control selectpicker'><option value='Petit-dejeuner'>Petit-dejeuner</option><option value='Brunch'>Brunch</option><option value='Midi'>Midi</option><option value='Aperitif'>Aperitif</option><option value='Gouter'>Gouter</option><option value='Diner'>Diner</option></select></div>";
+		var BIGSRC = "<div class='col-md-4'><select title='Recette' id='recette[##_N_##]' name='recette[##_N_##]' class='form-control selectpicker' data-live-search='true'><?php foreach ($recettes as $rec) {printf('<option value=%d>%s</option>', $rec->getIdRecette(), $rec->getNom());}?></select></div><div class='col-md-3'><select title='Menu' id='type[##_N_##]' name='type[##_N_##]' class='form-control selectpicker'><option value='Petit-dejeuner'>Petit-dejeuner</option><option value='Brunch'>Brunch</option><option value='Midi'>Midi</option><option value='Aperitif'>Aperitif</option><option value='Gouter'>Gouter</option><option value='Diner'>Diner</option></select></div>";
 		var div = document.createElement("div");
 		console.log(i);
 		div.innerHTML = BIGSRC.replace(/##_N_##/g, i);
@@ -60,9 +60,32 @@
 	}
 
 	function revealEtape() {
-		if (t[j])
-			t[j].style.display = "";
-		j++;
+		var recBorder = document.getElementsByClassName("btn dropdown-toggle bs-placeholder btn-default")[j-1];
+		var typBorder = document.getElementsByClassName("btn dropdown-toggle bs-placeholder btn-default")[j];
+		var rec = document.getElementById("recette["+j+"]");
+		var typ = document.getElementById("typ["+j+"]");
+
+//		if (rec.value.length > 0 && typ.value.length > 0) {
+//			recBorder.style.borderColor = '#ccc';	
+//			typBorder.style.borderColor = '#ccc';	
+
+			if (t[j]) {
+				t[j].style.display = "";
+			}
+			j++;
+//		}
+//		else {
+//			if (rec.value.length == 0 && typ.value.length == 0) {
+//				recBorder.style.borderColor = 'red';	
+//				typBorder.style.borderColor = 'red';	
+//			}
+//			else if (rec.value.length == 0) {
+//				recBorder.style.borderColor = 'red';	
+//			}
+//			else {
+//				typBorder.style.borderColor = 'red';	
+//			}
+		}
 	}
 
 	

@@ -47,10 +47,9 @@ class Planning extends Bdd {
 		return $this->id_utilisateur;
 	}
 
-
 	public static function nextIdPlanning() {
 		$bdd = parent::getInstance();
-		$req = $bdd->requete("SELECT max(id_planning) FROM Planning");
+		$req = $bdd->requete("SELECT max(id_planning) FROM planning");
 		$id = $req->fetchColumn(0);
 		if ($id) {
 			$id = (int) $id;
@@ -65,11 +64,13 @@ class Planning extends Bdd {
 	public function inject() {
 		$bdd = parent::getInstance();
 
-		$req = $bdd->preparation("INSERT INTO Planning 
-			VALUES (:idPl, :exp, :idU)");
+		$req = $bdd->preparation("INSERT INTO planning 
+			VALUES (:idPl, to_date(:exp, 'RRRR-MM-DD'), :idU)");
+
 		$req->bindparam(":idPl", $this->id_planning);
-		$req->bindparam(":exp",  $this->expiration);
-		$req->bindparam(":idU",  $this->id_utilisateur);
+		$req->bindparam(":exp", $this->expiration);
+		$req->bindparam(":idU", $this->id_utilisateur);
+
 		$retour = $req->execute();
 
 		return $retour;
@@ -90,4 +91,36 @@ class Planning extends Bdd {
 			return null;
 		}
 	}
+
+	public static function getByUtilisateur($pIdU) {
+		$plannings = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM planning where id_utilisateur=:idUtilisateur');
+		$req->bindparam(':idUtilisateur', $pIdU);
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$plannings[] = new Planning($d['ID_PLANNING'], $d['EXPIRATION'], $d['ID_UTILISATEUR']);
+		}
+
+		return $plannings;	
+	}
+
+	public static function getByUtilisateurDate($pIdU, $pAsc) {
+		$plannings = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT * FROM planning where id_utilisateur=:idUtilisateur order by expiration :asc_desc');
+		$req->bindparam(':idUtilisateur', $pIdU);
+		$req->bindparam(':asc_desc', $pAsc);
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$plannings[] = new Planning($d['ID_PLANNING'], $d['EXPIRATION'], $d['ID_UTILISATEUR']);
+		}
+
+		return $plannings;	
+	}
+
 }

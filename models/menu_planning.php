@@ -8,7 +8,7 @@ class Menu_planning extends Bdd {
 
 	public function __construct($pId_menu, $pId_planning) {
 		$this->id_menu = $pId_menu;
-		$this->id_planning    = $pId_planning;
+		$this->id_planning = $pId_planning;
 	}
 
 	/* Accesseurs */
@@ -35,5 +35,19 @@ class Menu_planning extends Bdd {
 
 	public function getIdPlanning() {
 		return $this->id_planning;
+	}
+
+	public function inject() {
+		$bdd = parent::getInstance();
+
+		$req = $bdd->preparation("INSERT INTO menu_planning 
+			VALUES (:idMenu, :idPlanning)");
+
+		$req->bindparam(":idMenu", $this->id_menu);
+		$req->bindparam(":idPlanning", $this->id_planning);
+
+		$retour = $req->execute();
+
+		return $retour;
 	}
 }

@@ -157,13 +157,6 @@
 <br/>
 <hr/>
 <br/>
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-	<button type="button" class="btn btn-default center-block" aria-label="Left Align">
-	  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Ajouter à un planning
-	</button>
-  </div>
-</div>
 
 
 

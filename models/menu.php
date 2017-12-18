@@ -57,16 +57,17 @@ class Menu extends Bdd {
 		return $id;
 	}
 
-	public static function creation($pHoraire, $pTyp) {
+	public function inject() {
 		$idM = self::nextIdMenu();
 
 		$bdd = parent::getInstance();
 
-		$req = $bdd->preparation("INSERT INTO menu VALUES (:idMenu, :hor, :typ)");
+		$req = $bdd->preparation("INSERT INTO menu 
+			VALUES (:idMenu, to_date(:hor, 'RRRR-MM-DD'), :typ)");
 
-		$req->bindparam(":idMenu", $idM);
-		$req->bindparam(":horaire", $pHoraire);
-		$req->bindparam(":typ", $pTyp);
+		$req->bindparam(":idMenu", $this->id_menu);
+		$req->bindparam(":hor", $this->horaire);
+		$req->bindparam(":typ", $this->typ);
 
 		$req->execute();
 

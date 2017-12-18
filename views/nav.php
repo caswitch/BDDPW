@@ -22,7 +22,7 @@
 		  </a>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 					<li><a href="<?php echo $BASEURL ?>/index.php/planning/creation">Nouveau Planning</a></li>
-					<li><a href="<?php echo $BASEURL ?>/index.php/planning/listePlannings">Liste des plannings</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/planning/listeMesPlannings">Liste de mes plannings</a></li>
 				</ul>
 		</li>
 		<?php } ?>

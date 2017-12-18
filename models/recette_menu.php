@@ -36,4 +36,18 @@ class Recette_menu extends Bdd {
 	public function getIdRecette() {
 		return $this->id_recette;
 	}
+
+	public function inject() {
+		$bdd = parent::getInstance();
+
+		$req = $bdd->preparation("INSERT INTO recette_menu 
+			VALUES (:idMenu, :idRecette)");
+
+		$req->bindparam(":idMenu", $this->id_menu);
+		$req->bindparam(":idRecette", $this->id_recette);
+
+		$retour = $req->execute();
+
+		return $retour;
+	}
 }
