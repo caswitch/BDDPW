@@ -52,7 +52,7 @@ class Controller_Utilisateur {
 					echo 'alert("Veuillez renseigner votre pseudo ou mail et votre mot de passe pour vous connecter.")';
 					echo '</script>';
 				}
-				else if (!empty($_POST['login']) || !empty($POST['email'])) {
+				else if (!empty($_POST['login'])) {
 					//$password = $_POST['pwd'];
 					//$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 					//if (password_verify($password, $hashed_password)) {
@@ -75,7 +75,9 @@ class Controller_Utilisateur {
 					//}
 				}
 
-				if (!is_null($utilisateur)) {
+				if ($utilisateur) {
+					$_SESSION['connect'] = true;
+					$_SESSION['login'] = $utilisateur->getLogin();
 					$_SESSION['message'] = 'En cuisine ! 😋'; 
 
 					$home = 'Location: '.$BASEURL.'/index.php';
@@ -83,6 +85,7 @@ class Controller_Utilisateur {
 					exit();
 				}
 				else {
+					$_SESSION['connect'] = false;
 					echo '<script language="javascript">';
 					echo 'alert("Informations renseignées incorrectes. 😔")';
 					echo '</script>';
@@ -104,6 +107,7 @@ class Controller_Utilisateur {
 			Utilisateur::deconnexion();
 			$home = 'Location: '.$BASEURL.'/index.php';
 			header($home);
+			session_unset();
 			exit();
 		} 
 	}

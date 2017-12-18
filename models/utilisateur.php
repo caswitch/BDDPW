@@ -123,13 +123,10 @@ class Utilisateur extends Bdd {
 			$req->execute();
 			$d = $req->fetch(PDO::FETCH_ASSOC);
 
-			$_SESSION['login'] = $d['ID_UTILISATEUR'];
-			$_SESSION['connect'] = true;
 			$user = new Utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_VERIFIE'], $d['MDP']);
 			return $user;
 		}
 		else {
-			$_SESSION['connect'] = false;
 			return null;
 		}
 	}
@@ -147,9 +144,21 @@ class Utilisateur extends Bdd {
 	}
 
 	//TODO
-	public static function getMdpByLoginOrEmail() {
-		unset($_SESSION['login']);
-		unset($_SESSION['connect']);
+	public static function getByLoginOrEmail($pLogin, $pEmail) {
+		$bdd = parent::getInstance();
+
+		$req = $bdd->preparation("SELECT * FROM utilisateur WHERE login = :login or email = :email");
+		$req->bindparam(':login', $pLogin);
+		$req->bindparam(':email', $pEmail);
+		$req->execute();
+
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$utilisateur = new utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_V'], $d['MDP']);
+			return $utilisateur;
+		}
+		else {
+			return null;
+		}
 	}
 
 	public static function getById($pIdUtilisateur) {
@@ -160,11 +169,20 @@ class Utilisateur extends Bdd {
 		$req->execute();
 
 		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
-			$utilisateur = new utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_V'], $d['MDP']);
+			$utilisateur = new Utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_V'], $d['MDP']);
 			return $utilisateur;
 		}
 		else {
 			return null;
+		}
+	}
+
+	public static function getBySession() {
+		if (Utilisateur::est_connecte()){
+			if (isset($_SESSION['login'])) {
+				return Utilisateur::getByLoginOrEmail($_SESSION['login'], "");
+			}
+			return false;
 		}
 	}
 }
