@@ -264,14 +264,14 @@ Insert into MEDIA (ID_MEDIA,TYPE,URL,LEGENDE) values (33,'image','laitue','Laitu
 Insert into MEDIA (ID_MEDIA,TYPE,URL,LEGENDE) values (34,'image','parmesan','Parmesan');
 
 -- UTILISATEUR
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (1,'caswitch','cas@gmail.com',0,'1234');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (2,'abroubrou','brou@gmail.com',0,'azerty');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (3,'doudou','dou@gmail.com',1,'doudou');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (4,'pauvre','pauvre@gmail.com',1,'aetu');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (5,'veg','veg@gmail.com',1,'mdpenclair');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (6,'corni','corni@gmail.com',0,'corni');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (7,'maman','maman@gmail.com',1,'rangetachambre');
-Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (8,'coloc','coloc@gmail.com',1,'co');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (1,'defaut','mail@gmail.com',0,'$2y$10$.jIsq.LkjW8IrItDCTxAQOPU.1yjJAQkY7xdiwgh0bwZxRVgO6vGG');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (2,'abroubrou','brou@gmail.com',0,'$2y$10$X5KKVmpBOAZhT5ocGEFiLOjjvnZb9LUjgvRY3XTmt40hNu5Y4c7OK');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (3,'doudou','dou@gmail.com',1,'$2y$10$7ox74LZP8rYIVUnwbtHtZ.O3XjOw8ZqfvJC.3tujDnwYl6vlFSY2G');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (4,'pauvre','pauvre@gmail.com',1,'$2y$10$R.5W8TKWEHCfIeLgxj/N2e/FVGstSD.yzofZKOUkv/uyC2.VKK/f6');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (5,'veg','veg@gmail.com',1,'$2y$10$ivu8i.X.iqWCcwWtmGDlB.95yB217Au60bQ.FmyYtvWPTjHsE.AtC');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (6,'corni','corni@gmail.com',0,'$2y$10$QjFHxbCotm/EMbZ4GdBN2uV9aS/cRuQ7.S2ANhicsum5xoQlu.GW.');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (7,'maman','maman@gmail.com',1,'$2y$10$kvfp0mMOj1XOAE1m1NgcAuiUM5jyZDRxsMKb4LHRVe1VLsyUsxMHm');
+Insert into UTILISATEUR (ID_UTILISATEUR,LOGIN,EMAIL,EMAIL_VERIFIE,MDP) values (8,'coloc','coloc@gmail.com',1,'$2y$10$svZmr17nHjuJD5r/RvSE1OLOAVpcNG7Q3Ckjmd7tnNzTEs7vJa8EK');
 
 -- RECETTE
 Insert into RECETTE (ID_RECETTE,NOM,DESCRIPTION,DIFFICULTE,PRIX,NB_PERS,ID_UTILISATEUR,ID_MEDIA) values (1,'Crepes','Quel plaisir de manger des crepes !',1,1,4,1,10);
