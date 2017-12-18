@@ -87,11 +87,28 @@ class Controller_Planning {
 		$BASEURL = $this->context['BASEURL'];
 
 		$user = Utilisateur::getBySession();
+		if (!$user){
+			echo "<h1>403</h1>";
+			echo "<h2>Connectes-toi petit rat</h2>";
+			$_SESSION['message'] = 'Il faut te connecter pour ça petit rat ! 😋'; 
+			$home = 'Location: '.$BASEURL.'/index.php';
+			header($home);
+			exit();
+		}
 		$idUtilisateur = $user->getIdUtilisateur();
 			
 		$array_mes_plannings = Planning::getByUtilisateur($idUtilisateur);
+		foreach ($array_mes_plannings as $plan) {
+			var_dump($plan->getExpiration());
+		}
 
 
-		include 'views/recherche_plannings.php';
+		include 'views/liste_plannings.php';
 	}
+
+	public function planningById($pIdPlanning) {
+
+		include 'views/un_planning.php';
+	}
+
 }
