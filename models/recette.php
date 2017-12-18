@@ -130,15 +130,13 @@ class Recette extends Bdd {
 	}
 
 	public static function getById($pIdR) {
-		$ut = Utilisateur::getIdUtilisateur();
-		var_dump($ut);
-
 		$bdd = parent::getInstance();
 		$req = $bdd->preparation('SELECT * FROM recette WHERE id_recette=:idR');
 		$req->bindparam(':idR', $pIdR);
 		$req->execute();
 
 		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			var_dump($d);
 			$recette = new Recette($d['ID_RECETTE'], $d['NOM'], $d['DESCRIPTION'], $d['DIFFICULTE'], $d['PRIX'], $d['NB_PERS'], $d['ID_UTILISATEUR'], $d['ID_MEDIA']);
 			return $recette;
 		}

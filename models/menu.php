@@ -7,8 +7,8 @@ class Menu extends Bdd {
 	private $horaire;
 	private $typ;
 
-	public function __construct($pIdMenu, $pHoraire, $pTyp) {
-		$this->id_menu = $pIdMenu;
+	public function __construct($pHoraire, $pTyp) {
+		$this->id_menu = self::nextIdMenu();
 		$this->horaire = $pHoraire;
 		$this->typ = $pTyp;
 	}
@@ -80,6 +80,7 @@ class Menu extends Bdd {
 		$req->execute();
 
 		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			// var_dump($d);
 			$menu = new Menu($d['ID_MENU'], $d['HORAIRE'], $d['TYPE']);
 			return $menu;
 		}

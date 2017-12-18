@@ -7,8 +7,8 @@ class Planning extends Bdd {
 	private $expiration;
 	private $id_utilisateur;
 
-	public function __construct($pId_planning, $pExpiration, $pId_utilisateur) {
-		$this->id_planning    = $pId_planning; 
+	public function __construct($pExpiration, $pId_utilisateur) {
+		$this->id_planning    = self::nextIdPlanning(); 
 		$this->expiration     = $pExpiration; 
 		$this->id_utilisateur = $pId_utilisateur;
 	}
@@ -21,6 +21,10 @@ class Planning extends Bdd {
 		if ($pIdP > 0) {
 			$this->id_planning = $pIdP;
 		}
+	}
+
+	public function addRecette($idRecette) {
+		// todo
 	}
 
 	public function getIdPlanning() {
@@ -58,20 +62,17 @@ class Planning extends Bdd {
 		return $id;
 	}
 
-	public static function creation($pExpiration, $pId_utilisateur) {
-		$idP = self::nextIdCategorie();
-
+	public function inject() {
 		$bdd = parent::getInstance();
 
 		$req = $bdd->preparation("INSERT INTO Planning 
 			VALUES (:idPl, :exp, :idU)");
-		$req->bindparam(":idPl", $idP);
-		$req->bindparam(":exp", $pExpiration);
-		$req->bindparam(":idU", $pId_utilisateur);
+		$req->bindparam(":idPl", $this->id_planning);
+		$req->bindparam(":exp",  $this->expiration);
+		$req->bindparam(":idU",  $this->id_utilisateur);
+		$retour = $req->execute();
 
-		$req->execute();
-
-		return $req;
+		return $retour;
 	}
 
 	public static function getById($pIdP) {
@@ -81,6 +82,7 @@ class Planning extends Bdd {
 		$req->execute();
 
 		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			// var_dump($d);
 			$p = new Planning($d['ID_PLANNING'], $d['EXPIRATION'], $d['ID_UTILISATEUR']);
 			return $p;
 		}

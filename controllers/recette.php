@@ -106,8 +106,11 @@ class Controller_Recette {
 					// est connecté ou non.
 					// Si l'utilisateur est connecté, on utilise son id.
 					if (Utilisateur::est_connecte()) {
-						$idUtilisateur = Utilisateur::getIdUtilisateur();
-						if ($idUtilisateur == NULL){
+						$utilisateur = Utilisateur::getBySession();
+						if ($utilisateur){
+							$idUtilisateur = $utilisateur->getIdUtilisateur();
+						}
+						else {
 							$idUtilisateur = "1";
 						}
 					}
@@ -140,7 +143,7 @@ class Controller_Recette {
 						// L'id de l'image par défaut est 35.
 						// On ne créé pas cette image car elle existe 
 						// déjà dans la base de données.
-						$idMedia = "35";
+						$idMedia = "1";
 					}
 
 					$idRecette = Recette::nextIdRecette();
@@ -171,6 +174,10 @@ class Controller_Recette {
 		}
 		// Affichage du formulaire de création de recette
 		include 'views/nouvelle_recette.php';
+	}
+
+	public function printSession() {
+		var_dump($_SESSION);
 	}
 
 	public function listeRecettes() {
