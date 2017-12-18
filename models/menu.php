@@ -7,8 +7,8 @@ class Menu extends Bdd {
 	private $horaire;
 	private $typ;
 
-	public function __construct($pHoraire, $pTyp) {
-		$this->id_menu = self::nextIdMenu();
+	public function __construct($pId, $pHoraire, $pTyp) {
+		$this->id_menu = $pId;
 		$this->horaire = $pHoraire;
 		$this->typ = $pTyp;
 	}
@@ -58,8 +58,6 @@ class Menu extends Bdd {
 	}
 
 	public function inject() {
-		$idM = self::nextIdMenu();
-
 		$bdd = parent::getInstance();
 
 		$req = $bdd->preparation("INSERT INTO menu 
@@ -88,6 +86,20 @@ class Menu extends Bdd {
 		else {
 			return null;
 		}
+	}
+
+	// Listes des menus dans un planning
+	public static function getAllByPlanning($pIdP) {
+		$menus = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->requete('SELECT * FROM menu WHERE id_menu in (select id_menu from menu_planning where id_planning='.$pIdP.')');
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			// var_dump($d);
+			$menus[] = new Menu($d['ID_MENU'], $d['HORAIRE'], $d['TYPE']);
+		}
+		return $menus;
 	}
 
 	public static function getAll() {

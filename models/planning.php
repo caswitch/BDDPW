@@ -7,8 +7,8 @@ class Planning extends Bdd {
 	private $expiration;
 	private $id_utilisateur;
 
-	public function __construct($pExpiration, $pId_utilisateur) {
-		$this->id_planning    = self::nextIdPlanning(); 
+	public function __construct($pIdP, $pExpiration, $pId_utilisateur) {
+		$this->id_planning    = $pIdP; 
 		$this->expiration     = $pExpiration; 
 		$this->id_utilisateur = $pId_utilisateur;
 	}
@@ -51,6 +51,7 @@ class Planning extends Bdd {
 		$bdd = parent::getInstance();
 		$req = $bdd->requete("SELECT max(id_planning) FROM planning");
 		$id = $req->fetchColumn(0);
+
 		if ($id) {
 			$id = (int) $id;
 			$id = $id + 1;
@@ -58,6 +59,7 @@ class Planning extends Bdd {
 		else {
 			$id = 1;
 		}
+
 		return $id;
 	}
 

@@ -50,4 +50,21 @@ class Menu_planning extends Bdd {
 
 		return $retour;
 	}
+
+	public static function getMenuByPlanning($pIdP) {
+		$plannings = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->preparation('SELECT id_menu FROM menu_planning where id_planning=:idPlanning');
+		$req->bindparam(':idPlanning', $pIdP);
+
+		$req->execute();
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$plannings[] = new Menu_planning($d['ID_MENU'], $d['ID_PLANNING']);
+		}
+
+		return $plannings;	
+	}
+
 }

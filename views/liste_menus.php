@@ -28,11 +28,11 @@
 	<a href="#" class="list-group-item active">
 	  Planning  +  Date d'expiration
     </a>
-  <?php foreach ($array_mes_plannings as $plan){ ?>
+  <?php $i=0; foreach ($array_mes_plannings as $plan){ ?>
     <a class="list-group-item" href="<?php echo $BASEURL?>/index.php/planning/planningById/<?=$plan->getIdPlanning()?>">
-	  Id plannning : <?php echo $plan->getIdPanning(); ?> Expiration : <?php echo $plan->getExpiration();?>
+	  Plannning : <?php echo $i; ?> Expiration : <?php echo $plan->getExpiration();?>
     </a>
-  <?php ; } ?>	
+  <?php $i++; } ?>	
 </div>
 <br/>
 <br/>

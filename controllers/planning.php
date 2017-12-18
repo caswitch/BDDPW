@@ -48,7 +48,9 @@ class Controller_Planning {
 				}
 			}
 
- 			$planning = new Planning($_POST["date"], $user->getIdUtilisateur());
+			$idPlanning = Planning::nextIdPlanning();
+
+ 			$planning = new Planning($idPlanning, $_POST["date"], $user->getIdUtilisateur());
 			$planning->inject();
 			//var_dump($planning->inject());
 
@@ -59,8 +61,8 @@ class Controller_Planning {
 			$menus = array();
 			$idsMenu = array();
 			for ($i = 0; $i < $nbrMenu; $i++) {
-				var_dump($types[$i]);
-				$menus[$i] = new Menu($_POST["date"], $types[$i]);
+				$idMenu = Menu::nextIdMenu();
+				$menus[$i] = new Menu($idMenu, $_POST["date"], $types[$i]);
 				$menus[$i]->inject();
 
 				$idsMenu[$i] = $menus[$i]->getIdMenu();
@@ -98,17 +100,43 @@ class Controller_Planning {
 		$idUtilisateur = $user->getIdUtilisateur();
 			
 		$array_mes_plannings = Planning::getByUtilisateur($idUtilisateur);
-		foreach ($array_mes_plannings as $plan) {
-			var_dump($plan->getExpiration());
-		}
-
 
 		include 'views/liste_plannings.php';
 	}
 
 	public function planningById($pIdPlanning) {
+		$BASEURL = $this->context['BASEURL'];
+
+		$user = Utilisateur::getBySession();
+		if (!$user){
+			echo "<h1>403</h1>";
+			echo "<h2>Connectes-toi petit rat</h2>";
+			$_SESSION['message'] = 'Il faut te connecter pour ça petit rat ! 😋'; 
+			$home = 'Location: '.$BASEURL.'/index.php';
+			header($home);
+			exit();
+		}
+		$idUtilisateur = $user->getIdUtilisateur();
+
+		$array_menus = Menu::getAllByPlanning($pIdPlanning);
 
 		include 'views/un_planning.php';
 	}
 
+	public function menuById($pIdMenu) {
+		$BASEURL = $this->context['BASEURL'];
+
+		$user = Utilisateur::getBySession();
+		if (!$user){
+			echo "<h1>403</h1>";
+			echo "<h2>Connectes-toi petit rat</h2>";
+			$_SESSION['message'] = 'Il faut te connecter pour ça petit rat ! 😋'; 
+			$home = 'Location: '.$BASEURL.'/index.php';
+			header($home);
+			exit();
+		}
+		$idUtilisateur = $user->getIdUtilisateur();
+
+		include 'views/un_menu.php';
+	}		
 }
