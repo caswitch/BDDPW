@@ -23,26 +23,58 @@
 <hr/>
 <br/>
 <div class="row">
-  <div class="col-md-3">
-	<h3>Ingrédients</h3>
-	<br/>
+  <div class="col-md-4">
+	<h3>Informations</h3>
+  </div>
+  <div class="col-md-6">
+	<h3>Étapes</h3>
+  </div>
+  <div class="col-md-2">
+    <h3>Ingrédients</h3>
+  </div>
+</div>
+<br/>
+<hr/>
+<br/>
+<div class="row">
+  <div class="col-md-2">
 	<table class="table table-condensed table-responsive">
 	  <tr>
 		<th></th>
+	  </tr>
+	  <?php foreach ($ingredients as $ing) { ?>
+	    <tr>
+		  <td><strong><?php echo $ing->getNom()?></strong></td>
+	    </tr>
+	  <?php } ?>	
+	</table>
+  </div>
+  <div class="col-md-1">
+	<table class="table table-condensed table-responsive">
+	  <tr>
+		<th></th>
+	  </tr>
+	  <?php foreach ($quantites as $quant) { ?>
+	    <tr>
+		  <td><strong><?php echo $quant?></strong></td>
+	    </tr>
+	  <?php } ?>	
+	</table>
+  </div>
+  <div class="col-md-1">
+	<table class="table table-condensed table-responsive">
+	  <tr>
 		<th></th>
 	  </tr>
 	  <?php foreach ($ingredients as $ing) { ?>
-	  <tr>
-		<td><strong><?php echo $ing->getNom()?></strong></td>
-		<td><?php echo $ing->getUnite()?></td>
-	  </tr>
+	    <tr>
+		  <td><strong><?php echo $ing->getUnite()?></strong></td>
+	    </tr>
 	  <?php } ?>	
 	</table>
   </div>
   <div class="col-md-6">
-	<h3>Étapes</h3>
-	<br/>
-	<ul>
+	<ol>
 	  <?php foreach ($etapes as $et) {?>
 		<li>
 		  <?php echo $et->getDescription()?>
@@ -50,11 +82,9 @@
 		  <?php echo $et->getDuree()?> minutes
 		</li>
 	  <?php }?>
-	</ul>
+	</ol>
   </div>
-  <div class="col-md-3">
-    <h3>Informations</h3>
-	<br/>
+  <div class="col-md-2">
 	<table class="table table-condensed table-responsive">
 	  <tr>
 		<th></th>

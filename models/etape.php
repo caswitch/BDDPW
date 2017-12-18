@@ -140,7 +140,7 @@ class Etape extends Bdd {
 		$etapes = array();
 
 		$bdd = parent::getInstance();
-		$req = $bdd->preparation('SELECT * FROM recette where id_recette=:idRe');
+		$req = $bdd->preparation('SELECT * FROM etape where id_recette=:idRe');
 		$req->bindparam(':idRe', $pIdR);
 		$req->execute();
 

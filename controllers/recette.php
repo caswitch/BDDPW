@@ -182,15 +182,14 @@ class Controller_Recette {
 		$BASEURL = $this->context['BASEURL'];
 		$quantites = array();
 
-		$recette = Recette::getById($pIdRecette);
-		$idRecette = $recette->getIdRecette();
-		$ingredients = Ingredient::getByIdRecette($idRecette);
-		foreach ($Ingredients as $ing) {
+		$recette = Recette::getById($pIdRecette); //
+		$idRecette = $recette->getIdRecette(); //
+		$ingredients = Ingredient::getByIdRecette($idRecette); //
+
+		foreach ($ingredients as $ing) {
 			$idIngredient = $ing->getIdIngredient();
 			$quantites[] = Recette_ingredient::getQuantite($idRecette, $idIngredient);
 		}
-		//var_dump($ingredients);
-		//var_dump($quantites);
 		$etapes = Etape::getByRecette($pIdRecette);
 		$idUt = $recette->getIdUtilisateur();
 		$utilisateur = Utilisateur::getById($idUt);
