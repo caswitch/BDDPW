@@ -2,3 +2,6 @@ sftp-config.json
 *.db
 *.sublime-project
 *.sublime-workspace
+*.zip
+*.tar
+*.tar.gz
