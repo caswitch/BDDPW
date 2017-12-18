@@ -143,7 +143,7 @@ class Controller_Recette {
 						// L'id de l'image par défaut est 35.
 						// On ne créé pas cette image car elle existe 
 						// déjà dans la base de données.
-						$idMedia = "35";
+						$idMedia = "1";
 					}
 
 					$idRecette = Recette::nextIdRecette();
