@@ -56,7 +56,7 @@
 	  </tr>
 	  <?php foreach ($quantites as $quant) { ?>
 	    <tr>
-		  <td><strong><?php echo $quant?></strong></td>
+		  <td><?php echo $quant?></td>
 	    </tr>
 	  <?php } ?>	
 	</table>
@@ -68,7 +68,7 @@
 	  </tr>
 	  <?php foreach ($ingredients as $ing) { ?>
 	    <tr>
-		  <td><strong><?php echo $ing->getUnite()?></strong></td>
+		  <td><?php echo $ing->getUnite()?></td>
 	    </tr>
 	  <?php } ?>	
 	</table>
