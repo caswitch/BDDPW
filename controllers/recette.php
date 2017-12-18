@@ -107,6 +107,9 @@ class Controller_Recette {
 					// Si l'utilisateur est connecté, on utilise son id.
 					if (Utilisateur::est_connecte()) {
 						$idUtilisateur = Utilisateur::getIdUtilisateur();
+						if ($idUtilisateur == NULL){
+							$idUtilisateur = "1";
+						}
 					}
 					// Si l'utilisateur n'est pas connecté,
 					// on utilise l'id de l'utilisateur par défaut.
