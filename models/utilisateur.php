@@ -138,5 +138,21 @@ class Utilisateur extends Bdd {
 		unset($_SESSION['login']);
 		unset($_SESSION['connect']);
 	}
+
+	public static function getById($pIdUtilisateur) {
+		$bdd = parent::getInstance();
+
+		$req = $bdd->preparation('SELECT * FROM utilisateur WHERE id_utilisateur=:idUt');
+		$req->bindparam(':idUt', $pIdUtilisateur);
+		$req->execute();
+
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$utilisateur = new utilisateur($d['ID_UTILISATEUR'], $d['LOGIN'], $d['EMAIL'], $d['EMAIL_V'], $d['MDP']);
+			return $utilisateur;
+		}
+		else {
+			return null;
+		}
+	}
 }
 ?>

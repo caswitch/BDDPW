@@ -178,9 +178,22 @@ class Controller_Recette {
  		include 'views/liste_des_recettes.php';
 	}
 
-	public function recetteById($pId) {
+	public function recetteById($pIdRecette) {
 		$BASEURL = $this->context['BASEURL'];
-		$rec = Recette::getById($pId);
+		$quantites = array();
+
+		$recette = Recette::getById($pIdRecette);
+		$idRecette = $recette->getIdRecette();
+		$ingredients = Ingredient::getByIdRecette($idRecette);
+		foreach ($Ingredients as $ing) {
+			$idIngredient = $ing->getIdIngredient();
+			$quantites[] = Recette_ingredient::getQuantite($idRecette, $idIngredient);
+		}
+		//var_dump($ingredients);
+		//var_dump($quantites);
+		$etapes = Etape::getByRecette($pIdRecette);
+		$idUt = $recette->getIdUtilisateur();
+		$utilisateur = Utilisateur::getById($idUt);
 
 		// Affichage de la recette
     	include 'views/une_recette.php';
@@ -281,8 +294,50 @@ class Controller_Recette {
 				foreach ($checked_arr as $checked_ing) {
 					$array_idI[] = $checked_ing;
 				}
+				if (empty($_POST['triepar'])) {
+					$array_id = Recette_ingredient::getIdRecetteByIdIngredients($array_idI);
+				}
+				else {
+					$trie = $_POST['triepar'];
+					switch ($trie) {
+						case "1": // - Titre +
+							$orderBy = "nom";
+							$asc = "ASC";
+							break;
+						case "2": // + Titre -
+							$orderBy = "nom";
+							$asc = "DESC";
+							break;
+						case "3": // - Nombre de personnes +
+							$orderBy = "nb_pers";
+							$asc = "ASC";
+							break;
+						case "4": // + Nomde de personnes -
+							$orderBy = "nb_pers";
+							$asc = "DESC";
+							break;
+						case "5": // - Prix +
+							$orderBy = "prix";
+							$asc = "ASC";
+							break;
+						case "6": // + Prix -
+							$orderBy = "prix";
+							$asc = "DESC";
+							break;
+						case "7": // - Difficulté +
+							$orderBy = "difficulte";
+							$asc = "ASC";
+							break;
+						case "8": // + Difficulté -
+							$orderBy = "difficulte";
+							$asc = "DESC";
+							break;
+					}
 
-				$array_id = Recette_ingredient::getIdRecetteByIdIngredients($array_idI);
+					$array_id = Recette_ingredient::getIdRecetteByIdIngsTrie($array_idI, $orderBy, $asc);
+				}
+
+				//$array_id = Recette_ingredient::getIdRecetteByIdIngredients($array_idI);
 
 				$array_rec = array();
 

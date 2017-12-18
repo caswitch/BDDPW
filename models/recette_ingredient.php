@@ -19,8 +19,22 @@ class Recette_ingredient extends Bdd {
 		$this->Quantite = $pQuantite;
 	}
 
-	public function getQuantite() {
-		return $this->Quantite;
+	public function getQuantite($pIdR, $pIdI) {
+		$bdd = parent::getInstance();
+
+		$req = $bdd->preparation('SELECT quantite FROM recette_ingredient WHERE id_recette=:idRec and id_ingredient=:idIng');
+		$req->bindparam(':idRec', $pIdR);
+		$req->bindparam(':idIng', $pIdI);
+		$req->execute();
+
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$quantite = $d['QUANTITE'];
+
+			return $quantite;
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function setIdRecette($pIdR) {
@@ -151,6 +165,7 @@ class Recette_ingredient extends Bdd {
 	}
 
 	public static function getIdRecetteByIdIngTrie($pIdIng, $pOrderBy, $pAsc) {
+
 		$r_i = array();
 
 		$bdd = parent::getInstance();
@@ -168,4 +183,33 @@ class Recette_ingredient extends Bdd {
 		return $r_i;
 	}
 
+	public static function getIdRecetteByIdIngsTrie($pIdIngs, $pOrderBy, $pAsc) {
+		$r_i = array();
+
+		$bdd = parent::getInstance();
+
+		// Nombre d'ingrédients recherchés
+		$i = 0;
+		$sql;
+
+		foreach ($pIdIngs as $idI) {
+			if ($i == 0) {
+				$sql = $sql."SELECT id_recette FROM recette_ingredient WHERE id_ingredient=".$idI;
+			}
+			else {
+				$sql = $sql."INTERSECT SELECT id_recette FROM recette_ingredient WHERE id_ingredient=".$idI;
+			}
+			$i++;
+		}
+
+		$sql_entier = "SELECT id_recette FROM recette WHERE id_recette IN (".$sql.") ORDER BY ".$pOrderBy." ".$pAsc;
+
+		$req = $bdd->requete($sql_entier);
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$r_i[] = $d['ID_RECETTE'];
+		}
+
+		return $r_i;
+	}
 }

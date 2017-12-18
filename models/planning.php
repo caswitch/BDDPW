@@ -80,7 +80,7 @@ class Planning extends Bdd {
 		$req->bindparam(':idPl', $pIdP);
 		$req->execute();
 
-		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {}
+		if ($d = $req->fetch(PDO::FETCH_ASSOC)) {
 			$p = new Planning($d['ID_PLANNING'], $d['EXPIRATION'], $d['ID_UTILISATEUR']);
 			return $p;
 		}

@@ -1,28 +1,28 @@
 <h2>Recherche de recettes par un ingrédient</h2>
 <br/>
+<hr/>
+<br/>
 
 <form action="" method="post">
-  <label>Ingrédient</label>
-	<div id="divIngr">
-	<select title=" " name="selectIng" class="selectpicker" data-live-search="true">
-	  <?php 
-		$i = 1;
-		foreach ($array_ing as $ing) { 
-	  ?>
-		<option>
-		  <?php echo $ing->getNom()?>
-		</option>
-      <?php 
-		  $i++;
-		} 
-	  ?>	
-	</select>
+<div class="row" id="descr">
+  <div class="col-md-2">
+	  <label>Ingrédient</label>
   </div>
-  <br/>
-  <br/>
-  <label>Triées par</label>
+  <div class="col-md-3">
 	<div id="divIngr">
-	<select title="Aucun" name="triepar" class="selectpicker" data-live-search="true">
+	  <select title=" " name="selectIng" class="selectpicker" data-live-search="true">
+		  <?php $i = 1; foreach ($array_ing as $ing) { ?>
+			<option><?php echo $ing->getNom()?></option>
+		  <?php $i++; } ?>	
+	  </select>
+	</div>
+  </div>
+  <div class="col-md-2">
+	<label>Triées par</label>
+  </div>
+  <div class="col-md-3">
+	<div id="divIngr">
+	  <select title="Aucun" name="triepar" class="selectpicker" data-live-search="true">
 		<option value="1">- Titre +</option>
 		<option value="2">+ Titre -</option>
 		<option value="3">- Nombre de personnes +</option>
@@ -31,18 +31,24 @@
 		<option value="6">+ Prix -</option>
 		<option value="7">- Difficulté +</option>
 		<option value="8">+ Difficulté -</option>
-	</select>
+	  </select>
+	</div>
   </div>
-
-  <br/>
-  <br/>
-  <button type="submit" class="btn btn-default" name="recherche">Recherche
-	<span class="glyphicon glyphicon-apple" aria-hidden="true"></span>
-  </button>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
+</div>
+<br/>
+<hr/>
+<br/>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+	<button type="submit" class="btn btn-default center-block" name="recherche">Recherche
+	  <span class="glyphicon glyphicon-apple" aria-hidden="true"></span>
+	</button>
+  </div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
 </form>
 
 <script type="text/javascript">

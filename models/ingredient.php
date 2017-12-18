@@ -181,4 +181,18 @@ class Ingredient extends Bdd {
 
 		return $ingredients;	
 	}
+
+	public static function getByIdRecette ($pIdRecette) {
+		$ingredients = array();
+
+		$bdd = parent::getInstance();
+		$sql = "SELECT * FROM ingredient WHERE id_ingredient IN (SELECT id_ingredient FROM recette_ingredient WHERE id_recette=".$pIdRecette.")";
+		$req = $bdd->requete($sql);
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$ingredients[] = new Ingredient($d['ID_INGREDIENT'], $d['NOM'], $d['UNITE'], $d['CALORIES'], $d['LIPIDES'], $d['GLUCIDES'], $d['PROTIDES'], $d['ID_MEDIA']);
+		}
+
+		return $ingredients;
+	}
 }

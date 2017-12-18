@@ -23,6 +23,21 @@
         <?php $i++; } ?>	
     </table>
   </div>
+  <br/>
+  <br/>
+  <label>Triées par</label>
+	<div id="divIngr">
+	<select title="Aucun" name="triepar" class="selectpicker" data-live-search="true">
+		<option value="1">- Titre +</option>
+		<option value="2">+ Titre -</option>
+		<option value="3">- Nombre de personnes +</option>
+		<option value="4">+ Nombre de personnes -</option>
+		<option value="5">- Prix +</option>
+		<option value="6">+ Prix -</option>
+		<option value="7">- Difficulté +</option>
+		<option value="8">+ Difficulté -</option>
+	</select>
+  </div>
 
   <br/>
   <br/>

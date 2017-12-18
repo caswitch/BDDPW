@@ -74,7 +74,7 @@ if (isset($_SERVER['PATH_INFO'])) {
 	}
   
 	if (!$found) {
-		echo "<p>Page indisponible</p>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Page indisponible 😞</div>";
 	}
 }
 

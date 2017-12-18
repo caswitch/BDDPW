@@ -15,8 +15,14 @@
 			<span class="sr-only">(current)</span>
 		  </a>
 		</li>
-		<li class="">
-		  <a class="nav-link" href="<?php echo $BASEURL ?>/index.php/mon_espace">Mon espace</a>
+		<li class="dropdown">
+		  <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="">Mon espace
+			<span class="caret"></span>
+		  </a>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<li><a href="<?php echo $BASEURL ?>/index.php/planning/creation">Nouveau Planning</a></li>
+					<li><a href="<?php echo $BASEURL ?>/index.php/planning/listePlannings">Liste des plannings</a></li>
+				</ul>
 		</li>
 		<li class="dropdown">
 		  <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="">Recettes
