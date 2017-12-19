@@ -10,25 +10,33 @@ function affectedByClass(elem, cname) {
 	return affectedByClass(elem.parentNode, cname);
 }
 
-function checkEmpty(){
-	var affected = affectedByClass(this, "non-empty");
-	if (!affected && this.oldBorder != undefined)
-		this.style.borderColor=this.oldBorder;
+function _checkEmpty(elem){
+	var affected = affectedByClass(elem, "non-empty");
+	if (!affected && elem.oldBorder != undefined){
+		elem.style.borderColor=elem.oldBorder;
+		return false;
+	}
 	
 	if (!affected)
-		return;
+		return false;
 
-	if (affected && this.value == ""){
-		if (this.oldBorder == undefined){
-			this.oldBorder = this.style.borderColor;
-			this.style.borderColor="red";
+	if (affected && elem.value == ""){
+		if (elem.oldBorder == undefined){
+			elem.oldBorder = elem.style.borderColor;
+			elem.style.borderColor="red";
 		}
+		return true;
 	}
 
-	if (affected && this.value != ""){
-		this.style.borderColor=this.oldBorder;
-		this.oldBorder = undefined;
+	if (affected && elem.value != ""){
+		elem.style.borderColor=elem.oldBorder;
+		elem.oldBorder = undefined;
+		return false;
 	}
+}
+
+function checkEmpty(){
+	return _checkEmpty(this);
 }
 
 var inp = $('input');
