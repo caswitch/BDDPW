@@ -1,30 +1,31 @@
-<br/>
-<div class="media">
-  <div class="media-left media-middle">
-    <a href="#">
-      <img class="media-object img-responsive center-block" src="<?php echo $BASEURL?>/img/inspiration.png" style="width:75%">
-    </a>
-  </div>
-</div>
-<br/>
-
-
-<h2 class="text-center">Planning</h2>
+<h2 class="text-center">Planning <?php echo $pIdPlanning;?></h2>
 <br/>
 <br/>
 <hr/>
 <br/>
-<div class="list-group">
-	<a href="#" class="list-group-item active">
-	  Menu  +  Type
-    </a>
-  <?php foreach ($array_menus as $menu){ ?>
-    <a class="list-group-item" href="<?php echo $BASEURL?>/index.php/planning/menuById/<?=$menu->getIdMenu()?>">
-	  Id menu : <?php echo $menu->getIdMenu(); ?> Type : <?php echo $menu->getTyp();?>
-    </a>
-  <?php } ?>	
+<div class="row">
+  <div class="col-md-4 col-md-offset-2">
+	<h3>Menu</h3>
+  </div>
+  <div class="col-md-4">
+    <h3>Recette</h3>
+  </div>
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-2">
+    <ul class="list-group">
+	  <?php $i = 0; foreach ($array_menus as $menu){ ?>
+
+		<li class="list-group-item"><?php echo $i; ?>        Id menu : <?php echo $menu->getIdMenu(); ?>               Type : <?php echo $menu->getTyp();?></li>
+	  <?php $i++; } ?>
+		</ul>
+  </div>
+  <div class="col-md-4">
+  <div class="list-group">
+    <?php $i = 0; foreach ($array_recettes as $rec){ ?>
+	  <a href="<?php echo $BASEURL?>/index.php/recette/recetteById/<?=$rec->getIdRecette()?>" class="list-group-item"><?php echo $i; ?>        <?php echo $rec->getNom(); ?></a>
+	<?php $i++; } ?>
+</div>
+  </div>
+</div>
