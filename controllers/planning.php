@@ -67,10 +67,10 @@ class Controller_Planning {
 
 				$idsMenu[$i] = $menus[$i]->getIdMenu();
 				
-				$recette_menu = new Recette_menu($idsMenu[$i], $idRecettes[$i]);
+				$recette_menu = new Recette_menu($idMenu, $idRecettes[$i]);
 				$recette_menu->inject();
 
-				$menu_plannning = new Menu_planning($idsMenu[$i], $idPlanning);
+				$menu_plannning = new Menu_planning($idMenu, $idPlanning);
 				$menu_plannning->inject();
 			}
 
@@ -119,6 +119,7 @@ class Controller_Planning {
 		$idUtilisateur = $user->getIdUtilisateur();
 
 		$array_menus = Menu::getAllByPlanning($pIdPlanning);
+		$array_recettes = Recette::getAllByPlanning($pIdPlanning);
 
 		include 'views/un_planning.php';
 	}

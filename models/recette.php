@@ -156,5 +156,18 @@ class Recette extends Bdd {
 
 		return $recettes;	
 	}
+	public static function getAllByPlanning($pIdPlanning) {
+		$recettes = array();
+
+		$bdd = parent::getInstance();
+		$req = $bdd->requete('SELECT * FROM recette WHERE id_recette IN (SELECT id_recette FROM recette_menu WHERE id_menu IN (SELECT id_menu FROM menu WHERE id_menu IN (SELECT id_menu FROM menu_planning WHERE id_planning='.$pIdPlanning.')))');
+
+		while ($d = $req->fetch(PDO::FETCH_ASSOC)) {
+			$recettes[] = new Recette($d['ID_RECETTE'], $d['NOM'], $d['DESCRIPTION'], $d['DIFFICULTE'], $d['PRIX'], $d['NB_PERS'], $d['ID_UTILISATEUR'], $d['ID_MEDIA']);
+		}
+
+		return $recettes;	
+	}
+
 }
 

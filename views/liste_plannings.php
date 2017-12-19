@@ -30,7 +30,7 @@
     </a>
   <?php foreach ($array_mes_plannings as $plan){ ?>
     <a class="list-group-item" href="<?php echo $BASEURL?>/index.php/planning/planningById/<?=$plan->getIdPlanning()?>">
-	  Id plannning : <?php echo $plan->getIdPanning(); ?> Expiration : <?php echo $plan->getExpiration();?>
+	  Id plannning : <?php echo $plan->getIdPlanning(); ?> Expiration : <?php echo $plan->getExpiration();?>
     </a>
   <?php ; } ?>	
 </div>
